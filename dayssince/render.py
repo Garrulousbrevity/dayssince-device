@@ -16,7 +16,7 @@ WIDTH, HEIGHT = 300, 400
 
 # Bump when the layout changes: forces a re-flash even if the number hasn't
 # moved (change-detection otherwise skips identical values).
-RENDER_VERSION = 4
+RENDER_VERSION = 5
 
 import os
 
@@ -63,10 +63,18 @@ def render(days: int, last_event_date: str | None = None, battery_pct: float | N
     # (black layer) — reads at a distance against any background.
     number = str(days)
     stroke = 8
+    top_margin = 6
+    footer_top = HEIGHT - 30
     # Size against all-zeros of the same digit count (the widest case) so every
     # value with N digits renders at the same, maximal scale.
-    number_font = _fit_font(FONT_BOLD, "0" * len(number), WIDTH - 8, HEIGHT - 50, 560, stroke=stroke)
-    center = (WIDTH // 2, (HEIGHT - 30) // 2)
+    number_font = _fit_font(FONT_BOLD, "0" * len(number), WIDTH - 8,
+                            footer_top - top_margin - 6, 560, stroke=stroke)
+    # anchor="mm" centers on the em box, but digits sit high in it — measure
+    # the actual ink and center that between the top edge and the footer.
+    probe = (WIDTH // 2, (top_margin + footer_top) // 2)
+    ink = black.textbbox(probe, number, font=number_font, anchor="mm", stroke_width=stroke)
+    dy = probe[1] - (ink[1] + ink[3]) // 2
+    center = (probe[0], probe[1] + dy)
     red.text(center, number, font=number_font, fill=BLACK, anchor="mm")
     black.text(center, number, font=number_font, fill=WHITE, anchor="mm",
                stroke_width=stroke, stroke_fill=BLACK)
