@@ -51,6 +51,12 @@ pisugar_cmd "rtc_pi2rtc"
 pisugar_cmd "set_button_enable double 1"
 pisugar_cmd "set_button_shell double systemctl restart dayssince"
 
+echo "== wifi power-save off (inbound poke latency) =="
+CON=$(nmcli -t -f NAME connection show --active | head -n1 || true)
+if [ -n "$CON" ]; then
+    nmcli connection modify "$CON" 802-11-wireless.powersave 2 || true
+fi
+
 echo "== state dir + shutdown permission =="
 mkdir -p /var/lib/dayssince
 chown pi:pi /var/lib/dayssince
