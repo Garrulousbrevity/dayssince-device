@@ -20,7 +20,7 @@ from datetime import datetime, date
 
 sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
 
-from dayssince import config, display, fetch, pisugar, schedule, state
+from dayssince import config, display, fetch, pisugar, render, schedule, state
 
 REPO_DIR = os.path.dirname(os.path.realpath(__file__))
 HOLD_FILE = "/boot/firmware/dayssince-hold"
@@ -80,17 +80,19 @@ def update_panel(st: dict, battery: float | None) -> None:
         logger.warning("fetch failed, leaving panel as-is: %s", err)
         return
     days = data["daysSince"]
-    if days == st.get("last_drawn_value"):
+    if days == st.get("last_drawn_value") and st.get("last_render_version") == render.RENDER_VERSION:
         logger.info("daysSince=%d unchanged, skipping panel flash", days)
         return
     last_event_date = (data.get("lastEvent") or "")[:10] or None
-    logger.info("daysSince changed %s -> %d, flashing panel", st.get("last_drawn_value"), days)
+    logger.info("daysSince %s -> %d (render v%d), flashing panel",
+                st.get("last_drawn_value"), days, render.RENDER_VERSION)
     try:
         display.flash_value(days, last_event_date, battery)
     except Exception as err:
         logger.error("panel flash failed: %s", err)
         return
     st["last_drawn_value"] = days
+    st["last_render_version"] = render.RENDER_VERSION
     state.save(st)
 
 

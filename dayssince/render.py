@@ -1,4 +1,10 @@
-"""Render the 400x300 display layout as separate black and red 1-bit layers.
+"""Render the display layout as separate black and red 1-bit layers.
+
+The canvas is in READING orientation (300x400 — the panel is mounted on its
+short edge, native-left up); display.py rotates it into the panel's native
+400x300 buffer. The layout is deliberately minimal: the whiteboard already
+says "Days since mentioning Wayfair" — this is just where the number goes,
+readable from across the room.
 
 Iterate on this via `dayssince.py --png out.png --value N` — never on the
 panel itself (each panel refresh is a ~15s flash and wears the display).
@@ -6,7 +12,11 @@ panel itself (each panel refresh is a ~15s flash and wears the display).
 
 from PIL import Image, ImageDraw, ImageFont
 
-WIDTH, HEIGHT = 400, 300
+WIDTH, HEIGHT = 300, 400
+
+# Bump when the layout changes: forces a re-flash even if the number hasn't
+# moved (change-detection otherwise skips identical values).
+RENDER_VERSION = 2
 
 FONT_DIR = "/usr/share/fonts/truetype/dejavu"
 FONT_BOLD = f"{FONT_DIR}/DejaVuSans-Bold.ttf"
@@ -15,13 +25,14 @@ FONT_REGULAR = f"{FONT_DIR}/DejaVuSans.ttf"
 BLACK, WHITE = 0, 1
 
 
-def _fit_font(path: str, text: str, max_width: int, start_size: int) -> ImageFont.FreeTypeFont:
+def _fit_font(path: str, text: str, max_width: int, max_height: int, start_size: int, stroke: int = 0):
     size = start_size
     while size > 10:
         font = ImageFont.truetype(path, size)
-        if font.getbbox(text)[2] <= max_width:
+        left, top, right, bottom = font.getbbox(text, stroke_width=stroke)
+        if right - left <= max_width and bottom - top <= max_height:
             return font
-        size -= 4
+        size -= 6
     return ImageFont.truetype(path, 10)
 
 
@@ -32,40 +43,35 @@ def render(days: int, last_event_date: str | None = None, battery_pct: float | N
     black = ImageDraw.Draw(black_img)
     red = ImageDraw.Draw(red_img)
 
-    # Frame
-    black.rectangle([2, 2, WIDTH - 3, HEIGHT - 3], outline=BLACK, width=3)
-
-    # Header
-    header_font = _fit_font(FONT_BOLD, "DAYS SINCE MENTIONING", WIDTH - 40, 30)
-    black.text((WIDTH // 2, 38), "DAYS SINCE MENTIONING", font=header_font, fill=BLACK, anchor="mm")
-
-    name_font = _fit_font(FONT_BOLD, "WAYFAIR", WIDTH - 60, 52)
-    red.text((WIDTH // 2, 85), "WAYFAIR", font=name_font, fill=BLACK, anchor="mm")
-
-    # The big number — red on a fresh reset (0), black otherwise
+    # The number, as big as it fits: red fill (red layer) + black outline
+    # (black layer) — reads at a distance against any background.
     number = str(days)
-    number_font = _fit_font(FONT_BOLD, number, WIDTH - 60, 150)
-    target = red if days == 0 else black
-    target.text((WIDTH // 2, 185), number, font=number_font, fill=BLACK, anchor="mm")
+    stroke = 8
+    number_font = _fit_font(FONT_BOLD, number, WIDTH - 20, HEIGHT - 64, 460, stroke=stroke)
+    center = (WIDTH // 2, (HEIGHT - 40) // 2)
+    red.text(center, number, font=number_font, fill=BLACK, anchor="mm")
+    black.text(center, number, font=number_font, fill=WHITE, anchor="mm",
+               stroke_width=stroke, stroke_fill=BLACK)
 
-    # Footer
+    # Footer small print
     footer_font = ImageFont.truetype(FONT_REGULAR, 16)
     if last_event_date:
-        black.text((14, HEIGHT - 22), f"since {last_event_date}", font=footer_font, fill=BLACK, anchor="lm")
+        black.text((10, HEIGHT - 14), f"since {last_event_date}", font=footer_font, fill=BLACK, anchor="lm")
     if battery_pct is not None:
-        black.text((WIDTH - 14, HEIGHT - 22), f"bat {battery_pct:.0f}%", font=footer_font, fill=BLACK, anchor="rm")
+        black.text((WIDTH - 10, HEIGHT - 14), f"{battery_pct:.0f}%", font=footer_font, fill=BLACK, anchor="rm")
 
     return black_img, red_img
 
 
 def composite(black_img: Image.Image, red_img: Image.Image) -> Image.Image:
     """Merge the two layers into an RGB preview image (for --png)."""
-    out = Image.new("RGB", (WIDTH, HEIGHT), "white")
+    out = Image.new("RGB", black_img.size, "white")
     px_out = out.load()
     px_black = black_img.load()
     px_red = red_img.load()
-    for y in range(HEIGHT):
-        for x in range(WIDTH):
+    w, h = black_img.size
+    for y in range(h):
+        for x in range(w):
             if px_red[x, y] == 0:
                 px_out[x, y] = (200, 30, 30)
             elif px_black[x, y] == 0:
