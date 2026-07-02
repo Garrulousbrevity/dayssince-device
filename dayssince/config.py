@@ -4,10 +4,8 @@ GRAPHQL_ENDPOINT = "https://dayssince.garrulousbrevity.com/graphql"
 EVENT_NAME = "Wayfair"
 
 # Battery (field) schedule: wake on quarter-hour wall-clock slots within this window.
-# TEMP for overnight field-mode testing 2026-07-02: window widened to all day so
-# self-wakes can be observed immediately. Revert to 9/17 after the test.
-ACTIVE_START_HOUR = 0   # first slot 09:00
-ACTIVE_END_HOUR = 23    # last slot 17:00 (inclusive)
+ACTIVE_START_HOUR = 9   # first slot 09:00
+ACTIVE_END_HOUR = 17    # last slot 17:00 (inclusive)
 
 # Plugged (dev/watch) mode
 WATCH_INTERVAL_SECONDS = 60
