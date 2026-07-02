@@ -1,0 +1,14 @@
+[Unit]
+Description=DaysSince e-ink display launcher
+Wants=network-online.target
+After=network-online.target pisugar-server.service
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/dayssince-device
+ExecStart=/usr/bin/python3 /home/pi/dayssince-device/launcher.py
+Restart=no
+
+[Install]
+WantedBy=multi-user.target
