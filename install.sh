@@ -50,6 +50,11 @@ pisugar_cmd "rtc_pi2rtc"
 # Double-tap = "update now" (re-runs the launcher; also the post-reset instant refresh)
 pisugar_cmd "set_button_enable double 1"
 pisugar_cmd "set_button_shell double systemctl restart dayssince"
+# Tap-to-wake from full power-off (anti-mistouch blocks button power-on).
+pisugar_cmd "set_anti_mistouch false"
+# MUST stay false: the firmware refuses rtc_alarm_set while auto_power_on is
+# enabled ("in conflict with alarm function"), and the alarm is our daily wake.
+pisugar_cmd "set_auto_power_on false"
 
 echo "== wifi power-save off (inbound poke latency) =="
 CON=$(nmcli -t -f NAME connection show --active | head -n1 || true)
