@@ -80,18 +80,19 @@ def update_panel(st: dict, battery: float | None) -> None:
         logger.warning("fetch failed, leaving panel as-is: %s", err)
         return
     days = data["daysSince"]
+    last_event_date = (data.get("lastEvent") or "")[:10] or None
     today = date.today().isoformat()
     # One guaranteed flash per day (the 09:00 wake on battery): refreshes the
-    # battery % and "since" date even when the number is stuck (daily
-    # mentions...), and doubles as anti-ghosting maintenance for the panel.
+    # battery % even when nothing changed, and doubles as anti-ghosting
+    # maintenance for the panel.
     daily_refresh = st.get("last_flash_date") != today
     if not daily_refresh and days == st.get("last_drawn_value") \
+            and last_event_date == st.get("last_drawn_since") \
             and st.get("last_render_version") == render.RENDER_VERSION:
         logger.info("daysSince=%d unchanged, skipping panel flash", days)
         return
-    last_event_date = (data.get("lastEvent") or "")[:10] or None
-    logger.info("daysSince %s -> %d (render v%d%s), flashing panel",
-                st.get("last_drawn_value"), days, render.RENDER_VERSION,
+    logger.info("daysSince %s -> %d since %s (render v%d%s), flashing panel",
+                st.get("last_drawn_value"), days, last_event_date, render.RENDER_VERSION,
                 ", daily refresh" if daily_refresh else "")
     try:
         display.flash_value(days, last_event_date, battery)
@@ -99,6 +100,7 @@ def update_panel(st: dict, battery: float | None) -> None:
         logger.error("panel flash failed: %s", err)
         return
     st["last_drawn_value"] = days
+    st["last_drawn_since"] = last_event_date
     st["last_render_version"] = render.RENDER_VERSION
     st["last_flash_date"] = today
     state.save(st)
