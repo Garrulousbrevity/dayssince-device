@@ -16,7 +16,7 @@ WIDTH, HEIGHT = 300, 400
 
 # Bump when the layout changes: forces a re-flash even if the number hasn't
 # moved (change-detection otherwise skips identical values).
-RENDER_VERSION = 2
+RENDER_VERSION = 3
 
 FONT_DIR = "/usr/share/fonts/truetype/dejavu"
 FONT_BOLD = f"{FONT_DIR}/DejaVuSans-Bold.ttf"
@@ -47,8 +47,10 @@ def render(days: int, last_event_date: str | None = None, battery_pct: float | N
     # (black layer) — reads at a distance against any background.
     number = str(days)
     stroke = 8
-    number_font = _fit_font(FONT_BOLD, number, WIDTH - 20, HEIGHT - 64, 460, stroke=stroke)
-    center = (WIDTH // 2, (HEIGHT - 40) // 2)
+    # Size against all-zeros of the same digit count (the widest case) so every
+    # value with N digits renders at the same, maximal scale.
+    number_font = _fit_font(FONT_BOLD, "0" * len(number), WIDTH - 8, HEIGHT - 50, 560, stroke=stroke)
+    center = (WIDTH // 2, (HEIGHT - 30) // 2)
     red.text(center, number, font=number_font, fill=BLACK, anchor="mm")
     black.text(center, number, font=number_font, fill=WHITE, anchor="mm",
                stroke_width=stroke, stroke_fill=BLACK)
