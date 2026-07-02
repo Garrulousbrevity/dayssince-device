@@ -113,8 +113,17 @@ def maybe_daily_pull(st: dict) -> None:
 
 
 def field_mode(st: dict) -> None:
-    wake = schedule.next_wake(datetime.now().astimezone())
-    pisugar.set_next_alarm(wake)  # FIRST — everything after this is best-effort
+    # Arm the wake FIRST — everything after this is best-effort. If arming
+    # itself fails, still proceed to shutdown: the alarm has a daily repeat,
+    # so the previously armed time will wake us; staying up just kills the
+    # battery. (Seen in the wild: firmware rejects rtc_alarm_set while
+    # auto_power_on is enabled — the two are mutually exclusive.)
+    try:
+        wake = schedule.next_wake(datetime.now().astimezone())
+        pisugar.set_next_alarm(wake)
+    except Exception as err:
+        logger.error("failed to arm RTC alarm (%s) — proceeding to shutdown; "
+                     "the previously armed daily alarm should still wake us", err)
     battery = read_battery()
     if battery is not None:
         state.log_battery(st, datetime.now().astimezone().isoformat(), battery)
