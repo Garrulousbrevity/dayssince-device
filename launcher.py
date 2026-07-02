@@ -134,7 +134,8 @@ def field_mode(st: dict) -> None:
                      "the previously armed daily alarm should still wake us", err)
     battery = read_battery()
     if battery is not None:
-        state.log_battery(st, datetime.now().astimezone().isoformat(), battery)
+        state.log_battery(st, datetime.now().astimezone().isoformat(), battery,
+                          pisugar.battery_volts())
         state.save(st)
     maybe_daily_pull(st)
     update_panel(st, battery)

@@ -32,5 +32,6 @@ def save(state: dict) -> None:
     os.replace(tmp, config.STATE_PATH)
 
 
-def log_battery(state: dict, iso_now: str, pct: float, keep: int = 200) -> None:
-    state["battery_log"] = (state.get("battery_log") or [])[-(keep - 1):] + [[iso_now, pct]]
+def log_battery(state: dict, iso_now: str, pct: float, volts: float | None = None, keep: int = 200) -> None:
+    entry = [iso_now, pct] if volts is None else [iso_now, pct, volts]
+    state["battery_log"] = (state.get("battery_log") or [])[-(keep - 1):] + [entry]

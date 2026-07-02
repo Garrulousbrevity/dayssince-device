@@ -52,6 +52,13 @@ def battery_pct() -> float:
     return float(_get("battery"))
 
 
+def battery_volts() -> float | None:
+    try:
+        return round(float(_get("battery_v")), 3)
+    except Exception:
+        return None
+
+
 def sync_rtc_from_pi() -> None:
     reply = _command("rtc_pi2rtc")
     if "done" not in reply:
