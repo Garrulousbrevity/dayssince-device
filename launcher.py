@@ -61,6 +61,7 @@ def git_pull() -> bool:
     result = subprocess.run(
         ["git", "-C", REPO_DIR, "pull", "--ff-only"],
         capture_output=True, text=True, timeout=180,
+        env={**os.environ, "GIT_TERMINAL_PROMPT": "0"},
     )
     if result.returncode != 0:
         logger.warning("git pull failed: %s", result.stderr.strip())
