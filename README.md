@@ -74,7 +74,7 @@ journalctl -u dayssince -f                         # watch the launcher
 ```
 
 While plugged in, pushes to `main` reach the device within ~5 min (or seconds,
-via the Mother Brain webhook relay). On battery, new code goes live at the
+via the dayssince-server /device-poke webhook). On battery, new code goes live at the
 next 09:00 wake.
 
 ## ARMv6 notes (Pi Zero W)
