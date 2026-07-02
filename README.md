@@ -39,10 +39,14 @@ whether external power is connected (PiSugar `battery_power_plugged`):
   5 min (re-exec on new code), and listen on `:8321` for a webhook poke that
   triggers an immediate pull. Unplugging drops straight into field mode.
 
-Plugging in the charger powers the Pi on (PiSugar behavior), so *plugging in
-is the "enter dev mode" gesture*. Double-tapping the PiSugar button re-runs
-the launcher ("update now"). Power-on from full shutdown: long-press the
-button ~2 s, or just plug the charger in.
+Power-on from full shutdown: **tap the PiSugar button** (requires
+`anti_mistouch false`, set by install.sh), or feed micro-USB directly into the
+Pi's own PWR port. Note the charger alone does NOT power it on once
+pisugar-poweroff has cut output, and `auto_power_on` must stay false — the
+firmware refuses RTC alarms while it's enabled. While running: double-tap
+re-runs the launcher ("update now"); if external power is present at boot the
+launcher stays up in watch mode, so "plug it in, tap the button" is the
+enter-dev-mode gesture.
 
 **Emergency hold**: `touch /boot/firmware/dayssince-hold` (from SSH, or by
 mounting the SD card) makes the launcher exit without flashing or shutting
