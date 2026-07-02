@@ -21,7 +21,7 @@ echo i2c-dev > /etc/modules-load.d/i2c-dev.conf
 
 echo "== apt packages =="
 apt-get update -qq
-apt-get install -y -qq git i2c-tools netcat-openbsd fonts-dejavu-core \
+apt-get install -y -qq git i2c-tools netcat-openbsd fonts-dejavu-core fonts-firacode \
     python3-requests python3-pil python3-spidev python3-gpiozero python3-lgpio
 
 echo "== pisugar-server =="

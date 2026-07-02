@@ -16,11 +16,27 @@ WIDTH, HEIGHT = 300, 400
 
 # Bump when the layout changes: forces a re-flash even if the number hasn't
 # moved (change-detection otherwise skips identical values).
-RENDER_VERSION = 3
+RENDER_VERSION = 4
 
-FONT_DIR = "/usr/share/fonts/truetype/dejavu"
-FONT_BOLD = f"{FONT_DIR}/DejaVuSans-Bold.ttf"
-FONT_REGULAR = f"{FONT_DIR}/DejaVuSans.ttf"
+import os
+
+
+def _first_font(*paths: str) -> str:
+    for p in paths:
+        if os.path.exists(p):
+            return p
+    raise FileNotFoundError(f"none of the candidate fonts exist: {paths}")
+
+
+# Fira Code to match the garrulousbrevity.com theme; DejaVu as fallback.
+FONT_BOLD = _first_font(
+    "/usr/share/fonts/truetype/firacode/FiraCode-Bold.ttf",
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+)
+FONT_REGULAR = _first_font(
+    "/usr/share/fonts/truetype/firacode/FiraCode-Regular.ttf",
+    "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+)
 
 BLACK, WHITE = 0, 1
 
