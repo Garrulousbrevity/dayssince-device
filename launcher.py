@@ -146,6 +146,17 @@ def field_mode(st: dict) -> None:
             pisugar.sync_rtc_from_pi()
         except Exception as err:
             logger.warning("RTC sync failed: %s", err)
+    # The mode decision was made at boot; if the charger arrived while this
+    # cycle ran, shutting down puts a plugged-in device to sleep instead of
+    # live-updating. Re-exec so main() re-decides — it will pick watch mode.
+    # The already-armed alarm is harmless: it fires into a running Pi.
+    try:
+        plugged = pisugar.power_plugged()
+    except Exception:
+        plugged = False
+    if plugged:
+        logger.info("external power arrived mid-cycle — re-exec into watch mode instead of shutting down")
+        os.execv(sys.executable, [sys.executable, os.path.realpath(__file__)])
     shutdown()
 
 
