@@ -9,7 +9,8 @@ from . import config
 
 logger = logging.getLogger(__name__)
 
-QUERY = 'query { events(name: "%s") { name daysSince lastEvent } }' % config.EVENT_NAME
+QUERY = ('query { events(name: "%s") '
+         '{ name daysSince lastEvent lastResetBy lastResetByName } }') % config.EVENT_NAME
 
 
 class FetchError(Exception):
@@ -35,7 +36,11 @@ def fetch_days_since(retries: int = 4, backoff: float = 5.0) -> dict:
             if not events:
                 raise FetchError(f"event {config.EVENT_NAME!r} not found")
             event = events[0]
-            return {"daysSince": int(event["daysSince"]), "lastEvent": event.get("lastEvent")}
+            return {
+                "daysSince": int(event["daysSince"]),
+                "lastEvent": event.get("lastEvent"),
+                "reporter": event.get("lastResetByName") or event.get("lastResetBy"),
+            }
         except FetchError:
             raise
         except Exception as err:  # network errors, bad JSON, etc.

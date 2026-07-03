@@ -80,27 +80,39 @@ def update_panel(st: dict, battery: float | None) -> None:
         logger.warning("fetch failed, leaving panel as-is: %s", err)
         return
     days = data["daysSince"]
-    last_event_date = (data.get("lastEvent") or "")[:10] or None
+    last_event = data.get("lastEvent") or None
+    reporter = data.get("reporter")
+    # Change-detection keys on what the layout actually shows: the two-panel
+    # footer includes the event's time-of-day and the reporter, the single
+    # panel only the date.
+    if config.PANELS >= 2:
+        since_key = (last_event or "")[:16] or None
+        reporter_key = reporter
+    else:
+        since_key = (last_event or "")[:10] or None
+        reporter_key = None
     today = date.today().isoformat()
     # One guaranteed flash per day (the 09:00 wake on battery): refreshes the
     # battery % even when nothing changed, and doubles as anti-ghosting
     # maintenance for the panel.
     daily_refresh = st.get("last_flash_date") != today
     if not daily_refresh and days == st.get("last_drawn_value") \
-            and last_event_date == st.get("last_drawn_since") \
+            and since_key == st.get("last_drawn_since") \
+            and reporter_key == st.get("last_drawn_reporter") \
             and st.get("last_render_version") == render.RENDER_VERSION:
         logger.info("daysSince=%d unchanged, skipping panel flash", days)
         return
     logger.info("daysSince %s -> %d since %s (render v%d%s), flashing panel",
-                st.get("last_drawn_value"), days, last_event_date, render.RENDER_VERSION,
+                st.get("last_drawn_value"), days, since_key, render.RENDER_VERSION,
                 ", daily refresh" if daily_refresh else "")
     try:
-        display.flash_value(days, last_event_date, battery)
+        display.flash_value(days, last_event, battery, reporter)
     except Exception as err:
         logger.error("panel flash failed: %s", err)
         return
     st["last_drawn_value"] = days
-    st["last_drawn_since"] = last_event_date
+    st["last_drawn_since"] = since_key
+    st["last_drawn_reporter"] = reporter_key
     st["last_render_version"] = render.RENDER_VERSION
     st["last_flash_date"] = today
     state.save(st)

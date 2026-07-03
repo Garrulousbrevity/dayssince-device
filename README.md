@@ -24,6 +24,43 @@ the web UI at `wayfair.garrulousbrevity.com`).
 | RST       | white  | 11           | 17  |
 | BUSY      | purple | 18           | 24  |
 
+### Panel 2 wiring (second 4.2" module)
+
+DIN/CLK/DC/RST are shared with panel 1 via 1-female-to-2-male splitters
+(female end on the header pin, both panels' same-color wires on the male
+ends). DC is only sampled by the panel whose CS is active; a shared RST
+resets both panels at once, which the driver expects — one reset pulse, then
+both panels are initialized without re-pulsing. CS and BUSY must be unique
+per panel; VCC/GND take spare header pins, no splitter needed.
+
+Full header map (pin 1 = the **square solder pad** at the SD-card end of the
+board, on the row toward the board's interior; odd pins = inner row, even
+pins = board-edge row). P1/P2 = panel 1/panel 2 cable, colors are the
+Waveshare loom:
+
+| Pin | Name         | Connection                       |     | Pin | Name         | Connection                       |
+|----:|--------------|----------------------------------|-----|----:|--------------|----------------------------------|
+| 1   | 3.3V         | **P2 VCC** (grey)                |     | 2   | 5V           | — (PiSugar power, pogo pads)     |
+| 3   | GPIO2 (SDA)  | — keep free (PiSugar I2C)        |     | 4   | 5V           | — (PiSugar power)                |
+| 5   | GPIO3 (SCL)  | — keep free (PiSugar I2C)        |     | 6   | GND          | — (PiSugar ground)               |
+| 7   | GPIO4        | —                                |     | 8   | GPIO14 (TXD) | —                                |
+| 9   | GND          | —                                |     | 10  | GPIO15 (RXD) | —                                |
+| 11  | GPIO17       | **SPLIT — RST** P1+P2 (white)    |     | 12  | GPIO18       | —                                |
+| 13  | GPIO27       | —                                |     | 14  | GND          | —                                |
+| 15  | GPIO22       | —                                |     | 16  | GPIO23       | **P2 BUSY** (purple)             |
+| 17  | 3.3V         | **P1 VCC** (grey)                |     | 18  | GPIO24       | **P1 BUSY** (purple)             |
+| 19  | GPIO10 (MOSI)| **SPLIT — DIN** P1+P2 (blue)     |     | 20  | GND          | **P1 GND** (brown)               |
+| 21  | GPIO9 (MISO) | — (e-ink is write-only)          |     | 22  | GPIO25       | **SPLIT — DC** P1+P2 (green)     |
+| 23  | GPIO11 (SCLK)| **SPLIT — CLK** P1+P2 (yellow)   |     | 24  | GPIO8 (CE0)  | **P1 CS** (orange)               |
+| 25  | GND          | **P2 GND** (brown)               |     | 26  | GPIO7 (CE1)  | **P2 CS** (orange)               |
+| 27  | ID_SD        | — reserved, never use            |     | 28  | ID_SC        | — reserved, never use            |
+| 29  | GPIO5        | —                                |     | 30  | GND          | —                                |
+| 31  | GPIO6        | —                                |     | 32  | GPIO12       | —                                |
+| 33  | GPIO13       | —                                |     | 34  | GND          | —                                |
+| 35  | GPIO19       | —                                |     | 36  | GPIO16       | —                                |
+| 37  | GPIO26       | —                                |     | 38  | GPIO20       | —                                |
+| 39  | GND          | —                                |     | 40  | GPIO21       | —                                |
+
 ## How it behaves
 
 The Pi is **off** almost all the time; the e-ink panel holds its image at 0 W.

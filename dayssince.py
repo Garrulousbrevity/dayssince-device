@@ -15,17 +15,24 @@ import argparse
 import logging
 import os
 import sys
-from datetime import date
+from datetime import datetime
 
 sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
 
-from dayssince import display, fetch, render, state
+from dayssince import config, display, fetch, render, state
 
 
 def get_data(args) -> dict:
     if args.value is not None:
-        return {"daysSince": args.value, "lastEvent": date.today().isoformat()}
-    return fetch.fetch_days_since()
+        return {
+            "daysSince": args.value,
+            "lastEvent": datetime.now().astimezone().isoformat(),
+            "reporter": args.reporter,
+        }
+    data = fetch.fetch_days_since()
+    if args.reporter:
+        data["reporter"] = args.reporter
+    return data
 
 
 def battery_or_none():
@@ -44,9 +51,17 @@ def main():
     parser.add_argument("--watch", type=int, nargs="?", const=60, metavar="SECONDS", help="repeat --once forever")
     parser.add_argument("--clear", action="store_true", help="blank the panel")
     parser.add_argument("--value", type=int, help="override daysSince instead of fetching")
+    parser.add_argument("--panels", type=int, choices=(1, 2), help="override DAYSSINCE_PANELS")
+    parser.add_argument("--layout", choices=render.LAYOUTS, help="override DAYSSINCE_LAYOUT (two-panel)")
+    parser.add_argument("--reporter", help="override the reporter name (preview)")
     args = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+
+    if args.panels is not None:
+        config.PANELS = args.panels
+    if args.layout is not None:
+        config.LAYOUT = args.layout
 
     if args.clear:
         from dayssince import epd
@@ -61,16 +76,29 @@ def main():
 
     if args.png:
         data = get_data(args)
-        black_img, red_img = render.render(
-            data["daysSince"], (data.get("lastEvent") or "")[:10] or None, battery_or_none()
-        )
-        render.composite(black_img, red_img).save(args.png)
+        if config.PANELS >= 2:
+            layers = render.render_pair(data["daysSince"], data.get("lastEvent"),
+                                        battery_or_none(), data.get("reporter"),
+                                        layout=config.LAYOUT)
+            previews = [render.composite(b, r) for b, r in layers]
+            gap = 24  # visual stand-in for the two bezels
+            from PIL import Image
+            sheet = Image.new("RGB", (render.WIDTH * 2 + gap, render.HEIGHT), (90, 90, 90))
+            sheet.paste(previews[0], (0, 0))
+            sheet.paste(previews[1], (render.WIDTH + gap, 0))
+            sheet.save(args.png)
+        else:
+            black_img, red_img = render.render(
+                data["daysSince"], (data.get("lastEvent") or "")[:10] or None, battery_or_none()
+            )
+            render.composite(black_img, red_img).save(args.png)
         print(f"wrote {args.png} (daysSince={data['daysSince']})")
         return
 
     if args.panel:
         data = get_data(args)
-        display.flash_value(data["daysSince"], (data.get("lastEvent") or "")[:10] or None, battery_or_none())
+        display.flash_value(data["daysSince"], data.get("lastEvent"), battery_or_none(),
+                            data.get("reporter"))
         return
 
     if args.once or args.watch is not None:
