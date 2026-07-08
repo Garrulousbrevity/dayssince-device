@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="172.4mm" height="154.4mm" viewBox="0 0 172.4 154.4">
+<svg xmlns="http://www.w3.org/2000/svg" width="172.4mm" height="156.4mm" viewBox="0 0 172.4 156.4">
 <g transform="translate(172.4,0) scale(-1,1)">
-<rect x="-0.09" y="-0.09" width="172.58" height="154.58" rx="4.09" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="-0.09" y="-0.09" width="172.58" height="156.58" rx="4.09" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 <circle cx="8.95" cy="8.95" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 <circle cx="81.95" cy="8.95" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 <circle cx="8.95" cy="106.45" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
@@ -9,17 +9,17 @@
 <circle cx="163.45" cy="8.95" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 <circle cx="90.45" cy="106.45" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 <circle cx="163.45" cy="106.45" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="14.7" cy="118.7" r="1.31" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="14.7" cy="141.7" r="1.31" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="72.7" cy="118.7" r="1.31" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="72.7" cy="141.7" r="1.31" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="14.7" cy="119.7" r="1.31" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="14.7" cy="142.7" r="1.31" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="72.7" cy="119.7" r="1.31" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="72.7" cy="142.7" r="1.31" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 <rect x="42.64" y="-0.06" width="12.12" height="3.32" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 <rect x="117.64" y="-0.06" width="12.12" height="3.32" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<rect x="42.64" y="151.14" width="12.12" height="3.32" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<rect x="117.64" y="151.14" width="12.12" height="3.32" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<rect x="-0.06" y="38.14" width="3.32" height="12.12" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<rect x="-0.06" y="104.14" width="3.32" height="12.12" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<rect x="169.14" y="38.14" width="3.32" height="12.12" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<rect x="169.14" y="104.14" width="3.32" height="12.12" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="42.64" y="153.14" width="12.12" height="3.32" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="117.64" y="153.14" width="12.12" height="3.32" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="-0.06" y="38.64" width="3.32" height="12.12" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="-0.06" y="105.64" width="3.32" height="12.12" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="169.14" y="38.64" width="3.32" height="12.12" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="169.14" y="105.64" width="3.32" height="12.12" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 </g>
 </svg>

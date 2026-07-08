@@ -50,7 +50,7 @@ WINDOW_MARGIN = 0.75       # window = active area + this per side (alignment
 PANEL_GAP = 3.0            # between the two PCB edges
 PANEL_MARGIN = 3.0         # PCB to inner wall face (sides + top)
 ZONE_GAP = 3.0             # panel PCB bottoms to stack zone top
-STACK_ZONE_H = 36.0        # strip below the panels for Pi stack + button
+STACK_ZONE_H = 38.0        # strip below the panels: Pi stack, battery, button
 BOTTOM_MARGIN = 3.0        # stack zone to inner bottom wall face
 CORNER_RADIUS = 4.0
 
@@ -67,10 +67,13 @@ PI_ZONE_LEFT = 8.0         # UNVERIFIED — placed to keep clear of the button
 # features. The battery pouch covers the LEDs from the front when mounted.
 
 # ---------------------------------------------- battery (magnetic pouch)
-# Decide after measuring the assembled sandwich: if it stays on its
-# magnetic mount, INTERNAL_DEPTH must cover the full stack (~29?); if it
-# lies beside the Pi in the zone, ~20-22 suffices but it needs retention.
-BATTERY_BESIDE_STACK = False   # UNVERIFIED — measure first
+# MEASURED 2026-07-07: sandwich is 35 deep with the battery on its magnetic
+# mount, 23 without (battery face → wire clearance, both incl. clearance).
+# 35 would mean a ~51mm assembled case, so the pouch comes off the mount
+# and lies flat beside the Pi. Needs retention in its pocket (foam tape or
+# a glued steel washer for the pouch's own magnets) + confirm JST lead
+# reach; never pinch the pouch.
+BATTERY_BESIDE_STACK = True
 BATTERY_W = 50.0           # UNVERIFIED — pouch footprint when laid flat
 BATTERY_H = 34.0           # UNVERIFIED
 BATTERY_GAP = 4.0          # clearance between Pi PCB edge and pouch
@@ -88,7 +91,8 @@ BUTTON_COVER_CLEAR = 18.0  # cover hole when the bushing can't span both layers
 BUTTON_FROM_RIGHT = 18.0
 
 # ------------------------------------------------------------------- walls
-INTERNAL_DEPTH = 22.0      # UNVERIFIED — must clear stack + cable housings
+INTERNAL_DEPTH = 24.0      # MEASURED 2026-07-07: batteryless sandwich is
+                           # 23.0 incl. wire clearance; +1 breathing room
 TAB_W = 12.0
 TAB_SLOT_CLEAR = 0.3       # per slot, on top of kerf; locate-only fit
 # Bottom-wall features (the PiSugar's USB/button/LED edge faces this wall;
