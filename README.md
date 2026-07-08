@@ -118,6 +118,16 @@ While plugged in, pushes to `main` reach the device within ~5 min (or seconds,
 via the dayssince-server /device-poke webhook). On battery, new code goes live at the
 next 09:00 wake.
 
+## Case (`case/`)
+
+Parametric Glowforge cut files for the laser-cut wall case: `case/dims.py`
+holds every dimension (values marked UNVERIFIED are datasheet placeholders
+awaiting caliper measurements), `python3 case/generate.py` writes per-piece
+and bed-packed SVGs plus a labelled assembly preview to `case/output/`.
+Red strokes = cut; `preview-*.svg` files carry dashed ghosts/labels and must
+never be sent to the laser. First revision targets a draftboard prototype
+before cutting acrylic.
+
 ## ARMv6 notes (Pi Zero W)
 
 - **pisugar-server**: the `armhf` debs are built for ARMv7 and crash with
