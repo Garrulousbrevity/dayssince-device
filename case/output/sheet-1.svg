@@ -12,8 +12,6 @@
 <circle cx="90.45" cy="106.45" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 <circle cx="163.45" cy="106.45" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 <circle cx="151.2" cy="130.2" r="8.01" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<rect x="20.79" y="118.29" width="21.82" height="3.82" rx="1.91" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="63.7" cy="120.2" r="0.71" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 </g>
 <g transform="translate(177.4,0)">
 <rect x="-0.09" y="-0.09" width="172.58" height="154.58" rx="4.09" fill="none" stroke="#ff0000" stroke-width="0.15"/>
@@ -26,6 +24,5 @@
 <circle cx="90.45" cy="106.45" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 <circle cx="163.45" cy="106.45" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 <circle cx="151.2" cy="130.2" r="8.91" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="63.7" cy="120.2" r="0.71" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 </g>
 </svg>

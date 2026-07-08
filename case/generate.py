@@ -164,10 +164,13 @@ def build_layout() -> SimpleNamespace:
              for sx in (-1, 1) for sy in (-1, 1)]
 
     L.button = (L.cx0 + L.cavity_w - D.BUTTON_FROM_RIGHT, L.zone_cy)
-    L.led = (L.pi_c[0] + D.LED_OFFSET_X - D.LED_SLOT_W / 2,
-             L.pi_c[1] + D.LED_OFFSET_Y - D.LED_SLOT_H / 2,
-             D.LED_SLOT_W, D.LED_SLOT_H)
-    L.reset = (L.pi_c[0] + D.RESET_OFFSET_X, L.pi_c[1] + D.RESET_OFFSET_Y)
+    # bottom-wall features, case x (converted to wall-local in build_wall)
+    L.usb_x = L.pi_c[0] + D.USB_OFFSET_X
+    L.led_x = L.pi_c[0] + D.LED_OFFSET_X
+    L.reset_x = L.pi_c[0] + D.RESET_OFFSET_X
+    # battery pouch laid flat beside the Pi (only when BATTERY_BESIDE_STACK)
+    L.battery = (L.pi[0] + D.PI_W + D.BATTERY_GAP,
+                 L.zone_cy - D.BATTERY_H / 2, D.BATTERY_W, D.BATTERY_H)
 
     # magnets: side pairs in the panel mid-band (corner placement collides
     # with the M3 screw-head pass-throughs; mid-band keeps them clear of the
@@ -208,7 +211,6 @@ def build_layout() -> SimpleNamespace:
     for c in L.walls["right"]["tabs"]:
         L.slots.append((L.w - T / 2 - st / 2, T + c - sw / 2, st, sw))
 
-    L.usb_x = L.pi_c[0] + D.USB_OFFSET_X  # through the bottom wall
     return L
 
 
@@ -229,8 +231,6 @@ def build_mask_plate(L):
         p.add(cut_slot(x, y, w, h, rx=1.0))
     fastener_holes(p, L)
     p.add(hole(*L.button, D.BUTTON_HOLE))
-    p.add(cut_slot(*L.led, rx=D.LED_SLOT_H / 2))
-    p.add(hole(*L.reset, D.RESET_PINHOLE_DIA))
     return p
 
 
@@ -240,7 +240,6 @@ def build_cover_plate(L):
     fastener_holes(p, L)
     d = D.BUTTON_HOLE if D.BUTTON_SPANS_BOTH_LAYERS else D.BUTTON_COVER_CLEAR
     p.add(hole(*L.button, d))
-    p.add(hole(*L.reset, D.RESET_PINHOLE_DIA))
     return p
 
 
@@ -287,11 +286,15 @@ def build_wall(L, name):
     pts.append((0, depth))
     p.add(poly(pts))
     if name == "bottom":
-        # USB-C access; local x == case x (bottom wall spans full width),
-        # local y: 0 = front face of cavity
-        x = L.usb_x - D.USB_CUT_W / 2
-        y = D.USB_FROM_FRONT - D.USB_CUT_H / 2
-        p.add(cut_slot(x, y, D.USB_CUT_W, D.USB_CUT_H, rx=1.5))
+        # the PiSugar's USB/button/LED edge faces this wall; local x == case
+        # x (bottom wall spans full width), local y: 0 = front face of cavity
+        p.add(cut_slot(L.usb_x - D.USB_CUT_W / 2,
+                       D.USB_FROM_FRONT - D.USB_CUT_H / 2,
+                       D.USB_CUT_W, D.USB_CUT_H, rx=1.5))
+        p.add(cut_slot(L.led_x - D.LED_SLOT_W / 2,
+                       D.LED_FROM_FRONT - D.LED_SLOT_H / 2,
+                       D.LED_SLOT_W, D.LED_SLOT_H, rx=D.LED_SLOT_H / 2))
+        p.add(hole(L.reset_x, D.RESET_FROM_FRONT, D.RESET_PINHOLE_DIA))
     return p
 
 
@@ -310,15 +313,29 @@ def build_preview(L, mask):
     e.append(circle(*L.button, D.BUTTON_BODY_DIA, KEEPOUT, dash=True))
     for cx, cy in L.magnets:
         e.append(circle(cx, cy, D.MAGNET_DIA, KEEPOUT, dash=True))
+    # bottom-wall features, projected onto the wall band
     e.append(rect(L.usb_x - D.USB_CUT_W / 2, L.h - D.THICKNESS,
                   D.USB_CUT_W, D.THICKNESS, KEEPOUT, dash=True))
+    e.append(rect(L.led_x - D.LED_SLOT_W / 2, L.h - D.THICKNESS,
+                  D.LED_SLOT_W, D.THICKNESS, KEEPOUT, dash=True))
+    e.append(circle(L.reset_x, L.h - D.THICKNESS / 2,
+                    D.RESET_PINHOLE_DIA, KEEPOUT, dash=True))
+    if D.BATTERY_BESIDE_STACK:
+        e.append(rect(*L.battery, KEEPOUT, dash=True))
+    stack_label = ("pi + pisugar" if D.BATTERY_BESIDE_STACK
+                   else "pi + pisugar + battery")
     labels = [
         (L.panels[0][0] + D.PANEL_PCB_W / 2, L.panels[0][1] - 1, "tens"),
         (L.panels[1][0] + D.PANEL_PCB_W / 2, L.panels[1][1] - 1, "ones"),
-        (L.pi_c[0], L.pi[1] + D.PI_H + 5, "pi + pisugar"),
+        (L.pi_c[0], L.pi[1] + D.PI_H + 5, stack_label),
         (L.button[0], L.button[1] + 15, "button"),
-        (L.usb_x, L.h + 4, "usb-c"),
+        (L.led_x, L.h + 4, "leds"),
+        (L.usb_x, L.h + 8, "usb-c"),
+        (L.reset_x + 8, L.h + 4, "rst"),
     ]
+    if D.BATTERY_BESIDE_STACK:
+        labels.append((L.battery[0] + L.battery[2] / 2,
+                       L.battery[1] + L.battery[3] / 2, "battery"))
     e += [text(x, y, s) for x, y, s in labels]
     pad = 8
     doc = (f'<g transform="translate({pad},{pad})">' + "\n".join(e) + "</g>")
@@ -369,8 +386,15 @@ def run_checks(L):
 
     bx, by = L.button
     r_body = D.BUTTON_BODY_DIA / 2
-    for name, (x, y, w, h) in [("panel0", L.panels[0]), ("panel1", L.panels[1]),
-                               ("pi stack", L.pi)]:
+    rects = [("panel0", L.panels[0]), ("panel1", L.panels[1]),
+             ("pi stack", L.pi)]
+    if D.BATTERY_BESIDE_STACK:
+        rects.append(("battery", L.battery))
+        bx0, by0, bw, bh = L.battery
+        if (bx0 + bw > L.cx0 + L.cavity_w - 1 or by0 < L.zone_y + 1
+                or by0 + bh > L.zone_y + D.STACK_ZONE_H - 1):
+            errs.append("battery pouch leaves the stack zone")
+    for name, (x, y, w, h) in rects:
         ncx = min(max(bx, x), x + w)
         ncy = min(max(by, y), y + h)
         if (bx - ncx) ** 2 + (by - ncy) ** 2 < (r_body + 1.0) ** 2:
@@ -391,6 +415,21 @@ def run_checks(L):
         if my + mag_r > L.zone_y - 1.0:
             errs.append(f"magnet at ({mx:.0f},{my:.0f}) intrudes on the "
                         f"PiSugar/battery zone")
+
+    # bottom-wall features must land on the strip, clear of the side walls
+    T = D.THICKNESS
+    for name, x, half_w, depth, half_h in [
+            ("usb", L.usb_x, D.USB_CUT_W / 2, D.USB_FROM_FRONT,
+             D.USB_CUT_H / 2),
+            ("led slot", L.led_x, D.LED_SLOT_W / 2, D.LED_FROM_FRONT,
+             D.LED_SLOT_H / 2),
+            ("reset", L.reset_x, D.RESET_PINHOLE_DIA / 2,
+             D.RESET_FROM_FRONT, D.RESET_PINHOLE_DIA / 2)]:
+        if not (T + 1 <= x - half_w and x + half_w <= L.w - T - 1):
+            errs.append(f"bottom-wall {name} runs into a side wall")
+        if not (1 <= depth - half_h and depth + half_h
+                <= D.INTERNAL_DEPTH - 1):
+            errs.append(f"bottom-wall {name} exceeds the strip depth")
     return errs
 
 

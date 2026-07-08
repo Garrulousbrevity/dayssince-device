@@ -60,14 +60,20 @@ PI_HOLE_GRID_W = 58.0      # standard Zero M2.5 grid
 PI_HOLE_GRID_H = 23.0
 # Stack position: left edge from cavity left, centred vertically in the zone
 PI_ZONE_LEFT = 8.0         # UNVERIFIED — placed to keep clear of the button
-# PiSugar component face is forward. Front-plate features over it:
-LED_SLOT_W = 22.0          # UNVERIFIED — 4 green + 1 blue LED row
-LED_SLOT_H = 4.0
-LED_OFFSET_X = -12.0       # UNVERIFIED — slot centre from stack centre
-LED_OFFSET_Y = -10.0       # UNVERIFIED
-RESET_PINHOLE_DIA = 1.6
-RESET_OFFSET_X = 20.0      # UNVERIFIED — pinhole from stack centre
-RESET_OFFSET_Y = -10.0     # UNVERIFIED
+# Sandwich orientation: battery side forward, Pi header + screen-wire
+# housings toward the back plate. The PiSugar's USB-C / buttons / LEDs all
+# live on ONE board edge; that edge faces the BOTTOM WALL, so USB access,
+# LED glow and the reset pinhole are wall features (below), not front-plate
+# features. The battery pouch covers the LEDs from the front when mounted.
+
+# ---------------------------------------------- battery (magnetic pouch)
+# Decide after measuring the assembled sandwich: if it stays on its
+# magnetic mount, INTERNAL_DEPTH must cover the full stack (~29?); if it
+# lies beside the Pi in the zone, ~20-22 suffices but it needs retention.
+BATTERY_BESIDE_STACK = False   # UNVERIFIED — measure first
+BATTERY_W = 50.0           # UNVERIFIED — pouch footprint when laid flat
+BATTERY_H = 34.0           # UNVERIFIED
+BATTERY_GAP = 4.0          # clearance between Pi PCB edge and pouch
 
 # --------------------------------------------------------------- fasteners
 M3_CLEAR = 3.4
@@ -85,10 +91,19 @@ BUTTON_FROM_RIGHT = 18.0
 INTERNAL_DEPTH = 22.0      # UNVERIFIED — must clear stack + cable housings
 TAB_W = 12.0
 TAB_SLOT_CLEAR = 0.3       # per slot, on top of kerf; locate-only fit
-USB_CUT_W = 11.0           # PiSugar USB-C through the bottom wall
+# Bottom-wall features (the PiSugar's USB/button/LED edge faces this wall;
+# offsets along the wall are from the Pi stack centre, case x)
+USB_CUT_W = 11.0           # PiSugar USB-C
 USB_CUT_H = 5.5
-USB_FROM_FRONT = 14.0      # UNVERIFIED — connector depth behind front face
-USB_OFFSET_X = 0.0         # UNVERIFIED — from Pi stack centre, case x
+USB_FROM_FRONT = 10.0      # UNVERIFIED — connector depth behind front face
+USB_OFFSET_X = 0.0         # UNVERIFIED
+LED_SLOT_W = 24.0          # UNVERIFIED — glow slot; must span the 4 green
+LED_SLOT_H = 3.0           #   + the blue power LED
+LED_OFFSET_X = -22.0       # UNVERIFIED — slot centre from stack centre
+LED_FROM_FRONT = 10.0      # UNVERIFIED — board-plane depth
+RESET_PINHOLE_DIA = 1.8    # side-actuated reset button on the same edge
+RESET_OFFSET_X = 18.0      # UNVERIFIED
+RESET_FROM_FRONT = 10.0    # UNVERIFIED
 
 # ----------------------------------------------------------------- magnets
 MAGNET_DIA = 32.0          # LOVIMAG 32 x 3 discs, flush in 3.2 mm sheet
