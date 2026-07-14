@@ -468,8 +468,9 @@ def main():
         sys.exit(1)
 
     mask = build_mask_plate(L)
-    pieces = [mask, build_cover_plate(L), build_back_plate(L),
-              build_magnet_layer(L), build_magnet_cover(L)]
+    pieces = [mask, build_cover_plate(L), build_back_plate(L)]
+    if D.MAGNET_SANDWICH:
+        pieces += [build_magnet_layer(L), build_magnet_cover(L)]
     pieces += [build_wall(L, n) for n in ("top", "bottom", "left", "right")]
     if D.BATTERY_BESIDE_STACK:
         pieces.append(build_battery_rails(L))
@@ -491,10 +492,12 @@ def main():
     else:
         sheets = pack_sheets(pieces)
 
+    back_extra = (f", +{2 * D.THICKNESS} magnet layers" if D.MAGNET_SANDWICH
+                  else ", magnets surface-glued (+3 whiteboard standoff)")
     print(f"case outline: {L.w:.1f} x {L.h:.1f} mm, "
           f"internal depth {D.INTERNAL_DEPTH:.1f} mm "
           f"(+{2 if D.FRONT_LAYERS == 2 else 1}x{D.THICKNESS} front, "
-          f"+{D.THICKNESS} back, +{2 * D.THICKNESS} magnet layers)")
+          f"+{D.THICKNESS} back{back_extra})")
     print(f"windows: {L.windows[0][2]:.1f} x {L.windows[0][3]:.1f} mm each, "
           f"bezel between panels: "
           f"{L.windows[1][0] - (L.windows[0][0] + L.windows[0][2]):.1f} mm")
