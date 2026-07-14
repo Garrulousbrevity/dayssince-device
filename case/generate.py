@@ -128,11 +128,11 @@ def build_layout() -> SimpleNamespace:
                 (p2x, py, D.PANEL_PCB_W, D.PANEL_PCB_H)]
 
     def corners(px, pyy):
-        i = D.PANEL_HOLE_INSET
-        return [(px + i, pyy + i),
-                (px + D.PANEL_PCB_W - i, pyy + i),
-                (px + i, pyy + D.PANEL_PCB_H - i),
-                (px + D.PANEL_PCB_W - i, pyy + D.PANEL_PCB_H - i)]
+        ix, iy = D.PANEL_HOLE_INSET_X, D.PANEL_HOLE_INSET_Y
+        return [(px + ix, pyy + iy),
+                (px + D.PANEL_PCB_W - ix, pyy + iy),
+                (px + ix, pyy + D.PANEL_PCB_H - iy),
+                (px + D.PANEL_PCB_W - ix, pyy + D.PANEL_PCB_H - iy)]
 
     L.m3 = corners(p1x, py) + corners(p2x, py)
 
@@ -164,10 +164,14 @@ def build_layout() -> SimpleNamespace:
              for sx in (-1, 1) for sy in (-1, 1)]
 
     L.button = (L.cx0 + L.cavity_w - D.BUTTON_FROM_RIGHT, L.zone_cy)
-    # bottom-wall features, case x (converted to wall-local in build_wall)
+    # bottom-wall features, case x (converted to wall-local in build_wall);
+    # depths are stored back-plate-relative, walls are drawn front-relative
     L.usb_x = L.pi_c[0] + D.USB_OFFSET_X
     L.led_x = L.pi_c[0] + D.LED_OFFSET_X
     L.reset_x = L.pi_c[0] + D.RESET_OFFSET_X
+    L.usb_d = D.INTERNAL_DEPTH - D.USB_FROM_BACK
+    L.led_d = D.INTERNAL_DEPTH - D.LED_FROM_BACK
+    L.reset_d = D.INTERNAL_DEPTH - D.RESET_FROM_BACK
     # battery pouch laid flat beside the Pi (only when BATTERY_BESIDE_STACK)
     L.battery = (L.pi[0] + D.PI_W + D.BATTERY_GAP,
                  L.zone_cy - D.BATTERY_H / 2, D.BATTERY_W, D.BATTERY_H)
@@ -273,6 +277,21 @@ def build_magnet_cover(L):
     return p
 
 
+def build_battery_rails(L):
+    """Three strips glued to the back plate boxing the battery pouch (top,
+    bottom, far side); open toward the Pi for the JST leads. Outer profiles
+    drawn at target + kerf like plate outlines."""
+    k = D.KERF
+    long_l = D.BATTERY_W + 2 * D.CORRAL_SLACK
+    short_l = D.BATTERY_H + 2 * D.CORRAL_SLACK
+    sw = D.CORRAL_STRIP_W
+    p = Piece("battery-rails", long_l + k, 3 * sw + 4 + k)
+    for i, w in enumerate((long_l, long_l, short_l)):
+        y = i * (sw + 2)
+        p.add(rect(-k / 2, y - k / 2, w + k, sw + k))
+    return p
+
+
 def build_wall(L, name):
     T = D.THICKNESS
     length = L.walls[name]["len"]
@@ -289,12 +308,12 @@ def build_wall(L, name):
         # the PiSugar's USB/button/LED edge faces this wall; local x == case
         # x (bottom wall spans full width), local y: 0 = front face of cavity
         p.add(cut_slot(L.usb_x - D.USB_CUT_W / 2,
-                       D.USB_FROM_FRONT - D.USB_CUT_H / 2,
+                       L.usb_d - D.USB_CUT_H / 2,
                        D.USB_CUT_W, D.USB_CUT_H, rx=1.5))
         p.add(cut_slot(L.led_x - D.LED_SLOT_W / 2,
-                       D.LED_FROM_FRONT - D.LED_SLOT_H / 2,
+                       L.led_d - D.LED_SLOT_H / 2,
                        D.LED_SLOT_W, D.LED_SLOT_H, rx=D.LED_SLOT_H / 2))
-        p.add(hole(L.reset_x, D.RESET_FROM_FRONT, D.RESET_PINHOLE_DIA))
+        p.add(hole(L.reset_x, L.reset_d, D.RESET_PINHOLE_DIA))
     return p
 
 
@@ -419,12 +438,12 @@ def run_checks(L):
     # bottom-wall features must land on the strip, clear of the side walls
     T = D.THICKNESS
     for name, x, half_w, depth, half_h in [
-            ("usb", L.usb_x, D.USB_CUT_W / 2, D.USB_FROM_FRONT,
+            ("usb", L.usb_x, D.USB_CUT_W / 2, L.usb_d,
              D.USB_CUT_H / 2),
-            ("led slot", L.led_x, D.LED_SLOT_W / 2, D.LED_FROM_FRONT,
+            ("led slot", L.led_x, D.LED_SLOT_W / 2, L.led_d,
              D.LED_SLOT_H / 2),
             ("reset", L.reset_x, D.RESET_PINHOLE_DIA / 2,
-             D.RESET_FROM_FRONT, D.RESET_PINHOLE_DIA / 2)]:
+             L.reset_d, D.RESET_PINHOLE_DIA / 2)]:
         if not (T + 1 <= x - half_w and x + half_w <= L.w - T - 1):
             errs.append(f"bottom-wall {name} runs into a side wall")
         if not (1 <= depth - half_h and depth + half_h
@@ -446,6 +465,8 @@ def main():
     pieces = [mask, build_cover_plate(L), build_back_plate(L),
               build_magnet_layer(L), build_magnet_cover(L)]
     pieces += [build_wall(L, n) for n in ("top", "bottom", "left", "right")]
+    if D.BATTERY_BESIDE_STACK:
+        pieces.append(build_battery_rails(L))
     for p in pieces:
         p.write()
     build_preview(L, mask)

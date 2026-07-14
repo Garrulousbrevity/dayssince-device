@@ -12,7 +12,9 @@ mounting-hole offsets are rev-dependent and the critical dims).
 """
 
 # ---------------------------------------------------------------- material
-THICKNESS = 3.2            # UNVERIFIED — caliper the actual draftboard sheet
+THICKNESS = 3.5            # MEASURED 2026-07-12 — draftboard (~3.5 everywhere).
+                           # Red acrylic measured ~3.25 — split into
+                           # per-material constants before the final acrylic cut.
 KERF = 0.18                # draftboard starting point; tune after first cut
 SHEET_W, SHEET_H = 495.0, 279.0   # usable Glowforge bed
 
@@ -22,26 +24,37 @@ SHEET_W, SHEET_H = 495.0, 279.0   # usable Glowforge bed
 FRONT_LAYERS = 2           # generate both; decide when the Green Glass is seen
 # True once the button bushing is confirmed to span both front layers
 # (~6.4 mm); False = cover gets a big clearance hole, button grabs mask only.
-BUTTON_SPANS_BOTH_LAYERS = False   # UNVERIFIED — measure usable thread length
+BUTTON_SPANS_BOTH_LAYERS = True    # MEASURED 2026-07-12 — 18 mm usable thread
+                                   # vs ~10 mm needed (2 layers + washer + nut)
 
 # ------------------------------------------------- panels (portrait, each)
 # Waveshare 4.2" B rev 2.2, PCB rotated 90° so native 103.0 x 78.5 stands up.
-PANEL_PCB_W = 78.5         # UNVERIFIED
-PANEL_PCB_H = 103.0        # UNVERIFIED
-PANEL_HOLE_INSET = 2.75    # UNVERIFIED — mounting hole centre from PCB edges
+PANEL_PCB_W = 78.5         # MEASURED 2026-07-12 (both panels; matches wiki)
+PANEL_PCB_H = 103.0        # MEASURED 2026-07-12
+# Hole insets differ per axis (MEASURED 2026-07-12, far-to-far with 3.0 holes:
+# 75.25 across the 78.5 side → 3.125; 100.0 along the 103 side → 3.0).
+# Portrait: X = across the 78.5 mm width, Y = along the 103 mm height.
+PANEL_HOLE_INSET_X = 3.125
+PANEL_HOLE_INSET_Y = 3.0
 PANEL_HOLE_DIA = 3.0       # board hole; case uses M3 clearance below
 
-ACTIVE_W = 63.6            # UNVERIFIED — active area, portrait
-ACTIVE_H = 84.8            # UNVERIFIED
+# Published active area (wiki). Measured visible white region is 65.5 x 87 =
+# active + the ~1 mm border-electrode ring, so window (active + margin)
+# lands almost exactly on the visible area — bezel hides the ring's edge.
+ACTIVE_W = 63.6
+ACTIVE_H = 84.8
 # Active-area centre offset from PCB centre, portrait front view (+x right,
-# +y down). The FPC/driver border makes this non-zero on the real module.
-ACTIVE_OFFSET_X = 0.0      # UNVERIFIED — the critical measurement
-ACTIVE_OFFSET_Y = 0.0      # UNVERIFIED — the critical measurement
+# +y down). MEASURED 2026-07-12 via visible-area margins: L 11.0 / R 2.0
+# (sums exactly to 78.5), T/B symmetric 8.0/8.0. Orientation CONFIRMED:
+# the wide 11 mm driver border is on the LEFT with the digits upright —
+# mount both panels that way up.
+ACTIVE_OFFSET_X = 4.5
+ACTIVE_OFFSET_Y = 0.0
 
-GLASS_W = 77.0             # UNVERIFIED — raw glass outline, portrait
-GLASS_H = 91.0             # UNVERIFIED
-GLASS_OFFSET_X = 0.0       # UNVERIFIED — glass centre offset from PCB centre
-GLASS_OFFSET_Y = 0.0       # UNVERIFIED
+GLASS_W = 77.0             # published "screen only" outline 91 x 77 x 1.05
+GLASS_H = 91.0
+GLASS_OFFSET_X = 0.0       # assumed centred; clearance checks pass with room
+GLASS_OFFSET_Y = 0.0
 
 WINDOW_MARGIN = 0.75       # window = active area + this per side (alignment
                            # slack; bezel still overlaps the glass edges)
@@ -74,9 +87,14 @@ PI_ZONE_LEFT = 8.0         # UNVERIFIED — placed to keep clear of the button
 # a glued steel washer for the pouch's own magnets) + confirm JST lead
 # reach; never pinch the pouch.
 BATTERY_BESIDE_STACK = True
-BATTERY_W = 50.0           # UNVERIFIED — pouch footprint when laid flat
-BATTERY_H = 34.0           # UNVERIFIED
+BATTERY_W = 59.0           # MEASURED 2026-07-12 — squishy pouch, laid flat;
+BATTERY_H = 30.0           # JST leads confirmed to reach from beside the Pi
 BATTERY_GAP = 4.0          # clearance between Pi PCB edge and pouch
+# Retention: a steel washer glued to the back plate (the pouch's own magnets
+# grab it) + three glued rails boxing the pouch, open toward the Pi so the
+# JST leads exit. Place rails with the pouch as the jig; never pinch it.
+CORRAL_STRIP_W = 4.0
+CORRAL_SLACK = 1.5         # rail-to-pouch slack per side
 
 # --------------------------------------------------------------- fasteners
 M3_CLEAR = 3.4
@@ -91,23 +109,35 @@ BUTTON_COVER_CLEAR = 18.0  # cover hole when the bushing can't span both layers
 BUTTON_FROM_RIGHT = 18.0
 
 # ------------------------------------------------------------------- walls
-INTERNAL_DEPTH = 24.0      # MEASURED 2026-07-07: batteryless sandwich is
-                           # 23.0 incl. wire clearance; +1 breathing room
+INTERNAL_DEPTH = 31.0      # MEASURED 2026-07-12 — full stack on its standoffs
+                           # is 28.2 tall (cross-checks: USB-C centre 26.8 +
+                           # ~1.4 above it); +2.8 clearance. Not 29.7: the USB
+                           # slot must stay ≥1 mm off the wall strip's front
+                           # edge (see run_checks). Walls are the only pieces
+                           # that depend on this — a later soldered
+                           # right-angle header (26.8 → 20.8) would mean
+                           # recutting just the 4 wall strips.
 TAB_W = 12.0
 TAB_SLOT_CLEAR = 0.3       # per slot, on top of kerf; locate-only fit
 # Bottom-wall features (the PiSugar's USB/button/LED edge faces this wall;
-# offsets along the wall are from the Pi stack centre, case x)
+# offsets along the wall are from the Pi stack centre, case x). Depths are
+# measured from the BACK plate — the stack mounts on back-plate standoffs,
+# so these numbers survive INTERNAL_DEPTH changes. generate.py converts to
+# wall-local depth as INTERNAL_DEPTH - *_FROM_BACK.
 USB_CUT_W = 11.0           # PiSugar USB-C
 USB_CUT_H = 5.5
-USB_FROM_FRONT = 10.0      # UNVERIFIED — connector depth behind front face
-USB_OFFSET_X = 0.0         # UNVERIFIED
+USB_FROM_BACK = 26.8       # MEASURED 2026-07-12 — back plate → USB-C centre:
+                           # single standoff + one small standoff, clearing
+                           # the F-M right-angle GPIO adapter on the straight
+                           # header (soldered right-angle would allow 20.8)
+USB_OFFSET_X = 0.0         # UNVERIFIED — prototype validates
 LED_SLOT_W = 24.0          # UNVERIFIED — glow slot; must span the 4 green
 LED_SLOT_H = 3.0           #   + the blue power LED
 LED_OFFSET_X = -22.0       # UNVERIFIED — slot centre from stack centre
-LED_FROM_FRONT = 10.0      # UNVERIFIED — board-plane depth
+LED_FROM_BACK = 26.8       # same board plane as the USB-C
 RESET_PINHOLE_DIA = 1.8    # side-actuated reset button on the same edge
 RESET_OFFSET_X = 18.0      # UNVERIFIED
-RESET_FROM_FRONT = 10.0    # UNVERIFIED
+RESET_FROM_BACK = 26.8     # same board plane as the USB-C
 
 # ----------------------------------------------------------------- magnets
 MAGNET_DIA = 32.0          # LOVIMAG 32 x 3 discs, flush in 3.2 mm sheet

@@ -1,42 +1,42 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="188.4mm" height="172.4mm" viewBox="0 0 188.4 172.4">
-<g transform="translate(8,8)"><rect x="-0.09" y="-0.09" width="172.58" height="156.58" rx="4.09" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<rect x="12.99" y="14.64" width="64.92" height="86.12" rx="0.91" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<rect x="94.49" y="14.64" width="64.92" height="86.12" rx="0.91" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="8.95" cy="8.95" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="81.95" cy="8.95" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="8.95" cy="106.45" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="81.95" cy="106.45" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="90.45" cy="8.95" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="163.45" cy="8.95" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="90.45" cy="106.45" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="163.45" cy="106.45" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="151.2" cy="131.2" r="8.01" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<rect x="6.2" y="6.2" width="78.5" height="103" fill="none" stroke="#0088ff" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<rect x="87.7" y="6.2" width="78.5" height="103" fill="none" stroke="#0088ff" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<rect x="6.95" y="12.2" width="77" height="91" fill="none" stroke="#0088ff" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<rect x="88.45" y="12.2" width="77" height="91" fill="none" stroke="#0088ff" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<rect x="13.65" y="15.3" width="63.6" height="84.8" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<rect x="95.15" y="15.3" width="63.6" height="84.8" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<rect x="11.2" y="116.2" width="65" height="30" fill="none" stroke="#0088ff" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<circle cx="14.7" cy="119.7" r="1.4" fill="none" stroke="#0088ff" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<circle cx="14.7" cy="142.7" r="1.4" fill="none" stroke="#0088ff" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<circle cx="72.7" cy="119.7" r="1.4" fill="none" stroke="#0088ff" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<circle cx="72.7" cy="142.7" r="1.4" fill="none" stroke="#0088ff" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<circle cx="151.2" cy="131.2" r="10" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="189mm" height="173mm" viewBox="0 0 189 173">
+<g transform="translate(8,8)"><rect x="-0.09" y="-0.09" width="173.18" height="157.18" rx="4.09" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="17.79" y="14.94" width="64.92" height="86.12" rx="0.91" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="99.29" y="14.94" width="64.92" height="86.12" rx="0.91" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="9.625" cy="9.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="81.875" cy="9.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="9.625" cy="106.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="81.875" cy="106.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="91.125" cy="9.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="163.375" cy="9.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="91.125" cy="106.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="163.375" cy="106.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="151.5" cy="131.5" r="8.01" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="6.5" y="6.5" width="78.5" height="103" fill="none" stroke="#0088ff" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<rect x="88" y="6.5" width="78.5" height="103" fill="none" stroke="#0088ff" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<rect x="7.25" y="12.5" width="77" height="91" fill="none" stroke="#0088ff" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<rect x="88.75" y="12.5" width="77" height="91" fill="none" stroke="#0088ff" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<rect x="18.45" y="15.6" width="63.6" height="84.8" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<rect x="99.95" y="15.6" width="63.6" height="84.8" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<rect x="11.5" y="116.5" width="65" height="30" fill="none" stroke="#0088ff" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<circle cx="15" cy="120" r="1.4" fill="none" stroke="#0088ff" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<circle cx="15" cy="143" r="1.4" fill="none" stroke="#0088ff" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<circle cx="73" cy="120" r="1.4" fill="none" stroke="#0088ff" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<circle cx="73" cy="143" r="1.4" fill="none" stroke="#0088ff" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<circle cx="151.5" cy="131.5" r="10" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
 <circle cx="22" cy="35" r="16" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<circle cx="150.4" cy="35" r="16" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<circle cx="34" cy="92.2" r="16" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<circle cx="138.4" cy="92.2" r="16" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<rect x="38.2" y="153.2" width="11" height="3.2" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<rect x="9.7" y="153.2" width="24" height="3.2" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<circle cx="61.7" cy="154.8" r="0.9" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<rect x="80.2" y="114.2" width="50" height="34" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<text x="45.45" y="5.2" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">tens</text>
-<text x="126.95" y="5.2" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">ones</text>
-<text x="43.7" y="151.2" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">pi + pisugar</text>
-<text x="151.2" y="146.2" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">button</text>
-<text x="21.7" y="160.4" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">leds</text>
-<text x="43.7" y="164.4" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">usb-c</text>
-<text x="69.7" y="160.4" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">rst</text>
-<text x="105.2" y="131.2" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">battery</text></g>
+<circle cx="151" cy="35" r="16" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<circle cx="34" cy="92.5" r="16" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<circle cx="139" cy="92.5" r="16" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<rect x="38.5" y="153.5" width="11" height="3.5" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<rect x="10" y="153.5" width="24" height="3.5" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<circle cx="62" cy="155.25" r="0.9" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<rect x="80.5" y="116.5" width="59" height="30" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<text x="45.75" y="5.5" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">tens</text>
+<text x="127.25" y="5.5" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">ones</text>
+<text x="44" y="151.5" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">pi + pisugar</text>
+<text x="151.5" y="146.5" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">button</text>
+<text x="22" y="161" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">leds</text>
+<text x="44" y="165" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">usb-c</text>
+<text x="70" y="161" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">rst</text>
+<text x="110" y="131.5" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">battery</text></g>
 </svg>
