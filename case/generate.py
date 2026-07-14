@@ -290,18 +290,23 @@ def build_wall(L, name):
     tabs = L.walls[name]["tabs"]
     depth = D.INTERNAL_DEPTH
     p = Piece(f"wall-{name}", length, depth + T)
-    pts = [(0, 0), (length, 0), (length, depth)]
+    if name == "bottom":
+        # USB notch through the front edge (local x == case x)
+        nx0 = L.usb_x - D.USB_NOTCH_W / 2
+        nx1 = L.usb_x + D.USB_NOTCH_W / 2
+        nd = D.USB_NOTCH_DEPTH
+        pts = [(0, 0), (nx0, 0), (nx0, nd), (nx1, nd), (nx1, 0),
+               (length, 0), (length, depth)]
+    else:
+        pts = [(0, 0), (length, 0), (length, depth)]
     for c in sorted(tabs, reverse=True):
         x_r, x_l = c + D.TAB_W / 2, c - D.TAB_W / 2
         pts += [(x_r, depth), (x_r, depth + T), (x_l, depth + T), (x_l, depth)]
     pts.append((0, depth))
     p.add(poly(pts))
     if name == "bottom":
-        # the PiSugar's USB/button/LED edge faces this wall; local x == case
-        # x (bottom wall spans full width), local y: 0 = front face of cavity
-        p.add(cut_slot(L.usb_x - D.USB_CUT_W / 2,
-                       L.usb_d - D.USB_CUT_H / 2,
-                       D.USB_CUT_W, D.USB_CUT_H, rx=1.5))
+        # LED slot (the USB opening is the notch in the outline above);
+        # local y: 0 = front face of cavity
         p.add(cut_slot(L.led_x - D.LED_SLOT_W / 2,
                        L.led_d - D.LED_SLOT_H / 2,
                        D.LED_SLOT_W, D.LED_SLOT_H, rx=D.LED_SLOT_H / 2))
@@ -328,8 +333,8 @@ def build_preview(L, mask):
     for cx, cy in L.magnets:
         e.append(circle(cx, cy, D.MAGNET_DIA, KEEPOUT, dash=True))
     # bottom-wall features, projected onto the wall band
-    e.append(rect(L.usb_x - D.USB_CUT_W / 2, L.h - D.THICKNESS,
-                  D.USB_CUT_W, D.THICKNESS, KEEPOUT, dash=True))
+    e.append(rect(L.usb_x - D.USB_NOTCH_W / 2, L.h - D.THICKNESS,
+                  D.USB_NOTCH_W, D.THICKNESS, KEEPOUT, dash=True))
     e.append(rect(L.led_x - D.LED_SLOT_W / 2, L.h - D.THICKNESS,
                   D.LED_SLOT_W, D.THICKNESS, KEEPOUT, dash=True))
     e.append(circle(L.w - D.THICKNESS / 2, L.pwr_y,
@@ -436,15 +441,19 @@ def run_checks(L):
     # bottom-wall features must land on the strip, clear of the side walls
     T = D.THICKNESS
     for name, x, half_w, depth, half_h in [
-            ("usb", L.usb_x, D.USB_CUT_W / 2, L.usb_d,
-             D.USB_CUT_H / 2),
+            ("usb notch", L.usb_x, D.USB_NOTCH_W / 2, None, None),
             ("led slot", L.led_x, D.LED_SLOT_W / 2, L.led_d,
              D.LED_SLOT_H / 2)]:
         if not (T + 1 <= x - half_w and x + half_w <= L.w - T - 1):
             errs.append(f"bottom-wall {name} runs into a side wall")
-        if not (1 <= depth - half_h and depth + half_h
-                <= D.INTERNAL_DEPTH - 1):
+        if depth is not None and not (1 <= depth - half_h and depth + half_h
+                                      <= D.INTERNAL_DEPTH - 1):
             errs.append(f"bottom-wall {name} exceeds the strip depth")
+    # notch must swallow the port centre + overmold half-height, and leave
+    # a solid band of strip behind it
+    if not (L.usb_d + 3.5 <= D.USB_NOTCH_DEPTH
+            <= D.INTERNAL_DEPTH - 8):
+        errs.append("usb notch depth wrong for the port plane")
 
     # power-light hole must land on the right wall strip
     r = D.PWRLED_HOLE / 2

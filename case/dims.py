@@ -127,8 +127,14 @@ TAB_SLOT_CLEAR = 0.3       # per slot, on top of kerf; locate-only fit
 # measured from the BACK plate — the stack mounts on back-plate standoffs,
 # so these numbers survive INTERNAL_DEPTH changes. generate.py converts to
 # wall-local depth as INTERNAL_DEPTH - *_FROM_BACK.
-USB_CUT_W = 11.0           # PiSugar USB-C
-USB_CUT_H = 5.5
+# The port face sits ~5-6 mm inside the wall (stack centred in the zone) and
+# a USB-C plug has only ~6.5 mm of metal, so the opening must admit the
+# cable's plastic overmold through the wall: a NOTCH open to the front edge
+# (the port centre is only 4.2 mm behind the front face — no room for a
+# closed hole that tall). Sized for typical ≤13.5 x 7 overmolds; front mask
+# covers the notch mouth.
+USB_NOTCH_W = 16.0
+USB_NOTCH_DEPTH = 8.5      # from the wall strip's front edge
 USB_FROM_BACK = 26.8       # MEASURED 2026-07-12 — back plate → USB-C centre:
                            # single standoff + one small standoff, clearing
                            # the F-M right-angle GPIO adapter on the straight

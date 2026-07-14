@@ -27,7 +27,7 @@
 <circle cx="151" cy="35" r="16" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
 <circle cx="34" cy="92.5" r="16" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
 <circle cx="139" cy="92.5" r="16" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<rect x="102.25" y="153.5" width="11" height="3.5" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<rect x="99.75" y="153.5" width="16" height="3.5" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
 <rect x="137.5" y="153.5" width="14" height="3.5" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
 <circle cx="171.25" cy="125.75" r="1.5" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
 <rect x="33.5" y="116.5" width="59" height="30" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
