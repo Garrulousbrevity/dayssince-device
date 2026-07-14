@@ -363,7 +363,7 @@ def build_preview(L, mask):
 
 
 # ------------------------------------------------------------ sheet packer
-def pack_sheets(pieces, spacing=5.0):
+def pack_sheets(pieces, spacing=5.0, prefix="sheet"):
     sheets, cur, shelf_y, shelf_h, x = [], [], 0.0, 0.0, 0.0
     for p in sorted(pieces, key=lambda p: -p.h):
         w, h = p.w + spacing, p.h + spacing
@@ -378,10 +378,13 @@ def pack_sheets(pieces, spacing=5.0):
         shelf_h = max(shelf_h, h)
     if cur:
         sheets.append(cur)
+    import glob
+    for old in glob.glob(os.path.join(OUT, f"{prefix}-*.svg")):
+        os.remove(old)
     paths = []
     for i, placed in enumerate(sheets, 1):
         elems = [p.group(f"translate({_f(x)},{_f(y)})") for p, x, y in placed]
-        path = os.path.join(OUT, f"sheet-{i}.svg")
+        path = os.path.join(OUT, f"{prefix}-{i}.svg")
         with open(path, "w") as f:
             f.write(svg_doc(D.SHEET_W, D.SHEET_H, elems))
         paths.append((path, [p.name for p, _, _ in placed]))
@@ -470,7 +473,20 @@ def main():
     for p in pieces:
         p.write()
     build_preview(L, mask)
-    sheets = pack_sheets(pieces)
+    # Optional piece names as CLI args pack only those onto sheet-custom-*
+    # (all piece files are still written): e.g.
+    #   python3 generate.py front-mask back-plate wall-{top,bottom,left,right} battery-rails
+    names = set(sys.argv[1:])
+    if names:
+        known = {p.name for p in pieces}
+        if names - known:
+            print(f"unknown piece(s): {', '.join(sorted(names - known))}\n"
+                  f"available: {', '.join(sorted(known))}", file=sys.stderr)
+            sys.exit(1)
+        sheets = pack_sheets([p for p in pieces if p.name in names],
+                             prefix="sheet-custom")
+    else:
+        sheets = pack_sheets(pieces)
 
     print(f"case outline: {L.w:.1f} x {L.h:.1f} mm, "
           f"internal depth {D.INTERNAL_DEPTH:.1f} mm "
