@@ -71,8 +71,11 @@ CORNER_RADIUS = 4.0
 PI_W, PI_H = 65.0, 30.0    # Zero footprint, mounted long-side horizontal
 PI_HOLE_GRID_W = 58.0      # standard Zero M2.5 grid
 PI_HOLE_GRID_H = 23.0
-# Stack position: left edge from cavity left, centred vertically in the zone
-PI_ZONE_LEFT = 8.0         # UNVERIFIED — placed to keep clear of the button
+# Stack position: right edge from cavity right, centred vertically in the
+# zone. Zone mirrored 2026-07-12 during first-article assembly: the battery's
+# short JST lead only has slack to the LEFT of the PiSugar, so left→right the
+# zone reads button, battery, Pi.
+PI_ZONE_RIGHT = 8.0
 # Sandwich orientation: battery side forward, Pi header + screen-wire
 # housings toward the back plate. The PiSugar's USB-C / buttons / LEDs all
 # live on ONE board edge; that edge faces the BOTTOM WALL, so USB access,
@@ -105,8 +108,8 @@ SCREW_HEAD_CLEAR = 6.5     # pass-through for M3/M2.5 heads in the magnet layer
 BUTTON_HOLE = 16.2         # 16 mm threaded bushing + slip
 BUTTON_BODY_DIA = 20.0     # keep-out behind the plate (body + solder lugs)
 BUTTON_COVER_CLEAR = 18.0  # cover hole when the bushing can't span both layers
-# Button centre, from cavity RIGHT edge / zone vertical centre
-BUTTON_FROM_RIGHT = 18.0
+# Button centre, from cavity LEFT edge / zone vertical centre
+BUTTON_FROM_LEFT = 18.0
 
 # ------------------------------------------------------------------- walls
 INTERNAL_DEPTH = 31.0      # MEASURED 2026-07-12 — full stack on its standoffs

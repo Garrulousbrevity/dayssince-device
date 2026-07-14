@@ -9,10 +9,10 @@
 <circle cx="163.375" cy="9.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 <circle cx="91.125" cy="106.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 <circle cx="163.375" cy="106.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="15" cy="120" r="1.31" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="15" cy="143" r="1.31" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="73" cy="120" r="1.31" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="73" cy="143" r="1.31" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="100" cy="120" r="1.31" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="100" cy="143" r="1.31" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="158" cy="120" r="1.31" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="158" cy="143" r="1.31" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 <rect x="42.94" y="-0.06" width="12.12" height="3.62" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 <rect x="117.94" y="-0.06" width="12.12" height="3.62" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 <rect x="42.94" y="153.44" width="12.12" height="3.62" fill="none" stroke="#ff0000" stroke-width="0.15"/>
@@ -36,9 +36,9 @@
 <circle cx="163.375" cy="9.5" r="3.16" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 <circle cx="91.125" cy="106.5" r="3.16" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 <circle cx="163.375" cy="106.5" r="3.16" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="15" cy="120" r="3.16" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="15" cy="143" r="3.16" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="73" cy="120" r="3.16" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="73" cy="143" r="3.16" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="100" cy="120" r="3.16" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="100" cy="143" r="3.16" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="158" cy="120" r="3.16" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="158" cy="143" r="3.16" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 </g>
 </svg>

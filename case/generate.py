@@ -155,7 +155,7 @@ def build_layout() -> SimpleNamespace:
     # stack zone
     L.zone_y = py + D.PANEL_PCB_H + D.ZONE_GAP
     L.zone_cy = L.zone_y + D.STACK_ZONE_H / 2
-    pix = L.cx0 + D.PI_ZONE_LEFT
+    pix = L.cx0 + L.cavity_w - D.PI_ZONE_RIGHT - D.PI_W
     piy = L.zone_cy - D.PI_H / 2
     L.pi = (pix, piy, D.PI_W, D.PI_H)
     L.pi_c = (pix + D.PI_W / 2, piy + D.PI_H / 2)
@@ -163,7 +163,7 @@ def build_layout() -> SimpleNamespace:
     L.m25 = [(L.pi_c[0] + sx * gx, L.pi_c[1] + sy * gy)
              for sx in (-1, 1) for sy in (-1, 1)]
 
-    L.button = (L.cx0 + L.cavity_w - D.BUTTON_FROM_RIGHT, L.zone_cy)
+    L.button = (L.cx0 + D.BUTTON_FROM_LEFT, L.zone_cy)
     # bottom-wall features, case x (converted to wall-local in build_wall);
     # depths are stored back-plate-relative, walls are drawn front-relative
     L.usb_x = L.pi_c[0] + D.USB_OFFSET_X
@@ -172,8 +172,9 @@ def build_layout() -> SimpleNamespace:
     L.usb_d = D.INTERNAL_DEPTH - D.USB_FROM_BACK
     L.led_d = D.INTERNAL_DEPTH - D.LED_FROM_BACK
     L.reset_d = D.INTERNAL_DEPTH - D.RESET_FROM_BACK
-    # battery pouch laid flat beside the Pi (only when BATTERY_BESIDE_STACK)
-    L.battery = (L.pi[0] + D.PI_W + D.BATTERY_GAP,
+    # battery pouch laid flat LEFT of the Pi (short JST lead only reaches
+    # that way; only when BATTERY_BESIDE_STACK)
+    L.battery = (L.pi[0] - D.BATTERY_GAP - D.BATTERY_W,
                  L.zone_cy - D.BATTERY_H / 2, D.BATTERY_W, D.BATTERY_H)
 
     # magnets: side pairs in the panel mid-band (corner placement collides
