@@ -168,10 +168,11 @@ def build_layout() -> SimpleNamespace:
     # depths are stored back-plate-relative, walls are drawn front-relative
     L.usb_x = L.pi_c[0] + D.USB_OFFSET_X
     L.led_x = L.pi_c[0] + D.LED_OFFSET_X
-    L.reset_x = L.pi_c[0] + D.RESET_OFFSET_X
     L.usb_d = D.INTERNAL_DEPTH - D.USB_FROM_BACK
     L.led_d = D.INTERNAL_DEPTH - D.LED_FROM_BACK
-    L.reset_d = D.INTERNAL_DEPTH - D.RESET_FROM_BACK
+    # power light: case y on the right wall (board top edge + measured drop)
+    L.pwr_y = L.zone_cy - D.PI_H / 2 + D.PWRLED_FROM_GPIO_EDGE
+    L.pwr_d = D.INTERNAL_DEPTH - D.PWRLED_FROM_BACK
     # battery pouch laid flat LEFT of the Pi (short JST lead only reaches
     # that way; only when BATTERY_BESIDE_STACK)
     L.battery = (L.pi[0] - D.BATTERY_GAP - D.BATTERY_W,
@@ -304,7 +305,10 @@ def build_wall(L, name):
         p.add(cut_slot(L.led_x - D.LED_SLOT_W / 2,
                        L.led_d - D.LED_SLOT_H / 2,
                        D.LED_SLOT_W, D.LED_SLOT_H, rx=D.LED_SLOT_H / 2))
-        p.add(hole(L.reset_x, L.reset_d, D.RESET_PINHOLE_DIA))
+    if name == "right":
+        # light-pipe hole for the power/charging LED; local x runs from the
+        # TOP of the case (install this wall with the hole toward the bottom)
+        p.add(hole(L.pwr_y - T, L.pwr_d, D.PWRLED_HOLE))
     return p
 
 
@@ -328,8 +332,8 @@ def build_preview(L, mask):
                   D.USB_CUT_W, D.THICKNESS, KEEPOUT, dash=True))
     e.append(rect(L.led_x - D.LED_SLOT_W / 2, L.h - D.THICKNESS,
                   D.LED_SLOT_W, D.THICKNESS, KEEPOUT, dash=True))
-    e.append(circle(L.reset_x, L.h - D.THICKNESS / 2,
-                    D.RESET_PINHOLE_DIA, KEEPOUT, dash=True))
+    e.append(circle(L.w - D.THICKNESS / 2, L.pwr_y,
+                    D.PWRLED_HOLE, KEEPOUT, dash=True))
     if D.BATTERY_BESIDE_STACK:
         e.append(rect(*L.battery, KEEPOUT, dash=True))
     stack_label = ("pi + pisugar" if D.BATTERY_BESIDE_STACK
@@ -341,7 +345,7 @@ def build_preview(L, mask):
         (L.button[0], L.button[1] + 15, "button"),
         (L.led_x, L.h + 4, "leds"),
         (L.usb_x, L.h + 8, "usb-c"),
-        (L.reset_x + 8, L.h + 4, "rst"),
+        (L.w + 6, L.pwr_y + 1, "pwr"),
     ]
     if D.BATTERY_BESIDE_STACK:
         labels.append((L.battery[0] + L.battery[2] / 2,
@@ -435,14 +439,20 @@ def run_checks(L):
             ("usb", L.usb_x, D.USB_CUT_W / 2, L.usb_d,
              D.USB_CUT_H / 2),
             ("led slot", L.led_x, D.LED_SLOT_W / 2, L.led_d,
-             D.LED_SLOT_H / 2),
-            ("reset", L.reset_x, D.RESET_PINHOLE_DIA / 2,
-             L.reset_d, D.RESET_PINHOLE_DIA / 2)]:
+             D.LED_SLOT_H / 2)]:
         if not (T + 1 <= x - half_w and x + half_w <= L.w - T - 1):
             errs.append(f"bottom-wall {name} runs into a side wall")
         if not (1 <= depth - half_h and depth + half_h
                 <= D.INTERNAL_DEPTH - 1):
             errs.append(f"bottom-wall {name} exceeds the strip depth")
+
+    # power-light hole must land on the right wall strip
+    r = D.PWRLED_HOLE / 2
+    pos = L.pwr_y - T
+    if not (1 + r <= pos <= (L.h - 2 * T) - 1 - r):
+        errs.append("right-wall power-light hole off the strip")
+    if not (1 <= L.pwr_d - r and L.pwr_d + r <= D.INTERNAL_DEPTH - 1):
+        errs.append("right-wall power-light hole exceeds the strip depth")
     return errs
 
 

@@ -133,14 +133,22 @@ USB_FROM_BACK = 26.8       # MEASURED 2026-07-12 — back plate → USB-C centre
                            # single standoff + one small standoff, clearing
                            # the F-M right-angle GPIO adapter on the straight
                            # header (soldered right-angle would allow 20.8)
-USB_OFFSET_X = 0.0         # UNVERIFIED — prototype validates
-LED_SLOT_W = 24.0          # UNVERIFIED — glow slot; must span the 4 green
-LED_SLOT_H = 3.0           #   + the blue power LED
-LED_OFFSET_X = -22.0       # UNVERIFIED — slot centre from stack centre
+USB_OFFSET_X = -21.25      # MEASURED 2026-07-13: board left end → port left
+                           # edge 6.75, +4.5 (half of the ~9 connector) =
+                           # centre 11.25 from the left end; 11.25 - 32.5.
+LED_SLOT_W = 14.0          # MEASURED 2026-07-13: the 4 battery LEDs span
+LED_SLOT_H = 3.0           # 43–53 from the board's left end (+2/side slack)
+LED_OFFSET_X = 15.5        # span centre 48 - 32.5
 LED_FROM_BACK = 26.8       # same board plane as the USB-C
-RESET_PINHOLE_DIA = 1.8    # side-actuated reset button on the same edge
-RESET_OFFSET_X = 18.0      # UNVERIFIED
-RESET_FROM_BACK = 26.8     # same board plane as the USB-C
+# No reset pinhole: reset (and the onboard power/custom buttons) stay
+# internal — the front arcade button clones power via pad 10.
+# Power/charging light: on the board's RIGHT short edge, facing the right
+# wall 8 mm away. 3.0 mm hole for a VCC LFB 3 mm press-fit light pipe
+# (trim the TAIL to ~11-12 mm; the cut end faces the LED).
+PWRLED_HOLE = 3.0
+PWRLED_FROM_GPIO_EDGE = 9.25   # MEASURED 2026-07-13: GPIO-side (top) corner
+                               # → LED near side 8.5, +~0.75 to centre
+PWRLED_FROM_BACK = 26.8        # board plane, same as the bottom-edge features
 
 # ----------------------------------------------------------------- magnets
 # DECIDED 2026-07-13 (as built + magnet-test PASSED): the pocket layer glues
