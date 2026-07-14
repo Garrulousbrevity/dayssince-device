@@ -271,10 +271,12 @@ def build_magnet_layer(L):
 def build_magnet_cover(L):
     p = Piece("magnet-cover", L.w, L.h, mirrored=True)
     p.add(outer_rrect(L.w, L.h, D.CORNER_RADIUS))
-    # plain clearance holes: leaves both options open at assembly — short
-    # screws stopping at the back plate (heads hidden under this cover) or
-    # long screws all the way through
-    fastener_holes(p, L, m25=True)
+    # Head pass-throughs like the magnet layer: the 12 back screws are
+    # tightened into the standoffs BEFORE the glued magnet sandwich goes on;
+    # their proud heads sink into these wells (and stay driver-reachable
+    # through them, so the case opens without removing the sandwich).
+    for cx, cy in L.m3 + L.m25:
+        p.add(hole(cx, cy, D.SCREW_HEAD_CLEAR))
     return p
 
 
