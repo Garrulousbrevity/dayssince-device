@@ -268,18 +268,6 @@ def build_magnet_layer(L):
     return p
 
 
-def build_magnet_cover(L):
-    p = Piece("magnet-cover", L.w, L.h, mirrored=True)
-    p.add(outer_rrect(L.w, L.h, D.CORNER_RADIUS))
-    # Head pass-throughs like the magnet layer: the 12 back screws are
-    # tightened into the standoffs BEFORE the glued magnet sandwich goes on;
-    # their proud heads sink into these wells (and stay driver-reachable
-    # through them, so the case opens without removing the sandwich).
-    for cx, cy in L.m3 + L.m25:
-        p.add(hole(cx, cy, D.SCREW_HEAD_CLEAR))
-    return p
-
-
 def build_battery_rails(L):
     """Three strips glued to the back plate boxing the battery pouch (top,
     bottom, far side); open toward the Pi for the JST leads. Outer profiles
@@ -469,8 +457,8 @@ def main():
 
     mask = build_mask_plate(L)
     pieces = [mask, build_cover_plate(L), build_back_plate(L)]
-    if D.MAGNET_SANDWICH:
-        pieces += [build_magnet_layer(L), build_magnet_cover(L)]
+    if D.MAGNET_LAYER:
+        pieces.append(build_magnet_layer(L))
     pieces += [build_wall(L, n) for n in ("top", "bottom", "left", "right")]
     if D.BATTERY_BESIDE_STACK:
         pieces.append(build_battery_rails(L))
@@ -492,7 +480,7 @@ def main():
     else:
         sheets = pack_sheets(pieces)
 
-    back_extra = (f", +{2 * D.THICKNESS} magnet layers" if D.MAGNET_SANDWICH
+    back_extra = (f", +{D.THICKNESS} magnet layer" if D.MAGNET_LAYER
                   else ", magnets surface-glued (+3 whiteboard standoff)")
     print(f"case outline: {L.w:.1f} x {L.h:.1f} mm, "
           f"internal depth {D.INTERNAL_DEPTH:.1f} mm "

@@ -143,14 +143,16 @@ RESET_OFFSET_X = 18.0      # UNVERIFIED
 RESET_FROM_BACK = 26.8     # same board plane as the USB-C
 
 # ----------------------------------------------------------------- magnets
-# DECIDED 2026-07-12: the magnet pocket SANDWICH stays (user call). Through-
-# plate grip failed the whiteboard slide test, and bare surface-gluing was
-# considered but rejected — pockets carry the shear load mechanically instead
-# of a glue line, and the magnets sit ~flush for near-contact grip. Stack,
-# inside→out: back plate → cover (magnet adhesive sticks to it) → pocket
-# layer, pockets opening toward the whiteboard. Back-screw heads sink into
-# the 6.5 mm wells through both layers and stay driver-reachable.
-MAGNET_SANDWICH = True     # False = magnets bare-glued to the back plate
+# DECIDED 2026-07-13 (as built + magnet-test PASSED): the pocket layer glues
+# DIRECTLY onto the back plate's outer face — magnets drop into the pockets
+# (facing the whiteboard, ~flush) and bond to the back plate through them
+# (E6000 fillet around each rim). Pockets carry the shear mechanically.
+# History: through-plate grip failed the slide test 2026-07-12; a separate
+# flat cover layer for the magnets to bond to was drawn but proved redundant
+# once the layer was glued straight to the plate. Back-screw heads sink into
+# the layer's 6.5 mm wells and stay driver-reachable; glue the layer on
+# BEFORE the screws go in (wells give access after).
+MAGNET_LAYER = True        # False = no pocket layer (magnets bare-glued)
 MAGNET_DIA = 32.0          # LOVIMAG 32 x 3 discs, flush in 3.2 mm sheet
 MAGNET_POCKET_SLIP = 0.3   # pocket diameter over magnet diameter
 MAGNET_INSET_X = 22.0      # pocket centre from outline corners
