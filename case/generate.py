@@ -289,20 +289,37 @@ def build_wall(L, name):
     length = L.walls[name]["len"]
     tabs = L.walls[name]["tabs"]
     depth = D.INTERNAL_DEPTH
-    p = Piece(f"wall-{name}", length, depth + T)
+    # Corner box joints: the depth edge splits into three bands; side walls
+    # keep the middle band as a protruding finger at each end, top/bottom
+    # walls get the complementary end cutouts — the four walls interlock
+    # into a self-holding rim before the back-plate tabs engage.
+    b1, b2 = depth / 3, 2 * depth / 3
+    side = name in ("left", "right")
+    x0 = T if side else 0.0          # local x where the wall's span starts
+    p = Piece(f"wall-{name}", length + (2 * T if side else 0), depth + T)
+    pts = [(x0, 0)]
     if name == "bottom":
         # USB notch through the front edge (local x == case x)
         nx0 = L.usb_x - D.USB_NOTCH_W / 2
         nx1 = L.usb_x + D.USB_NOTCH_W / 2
         nd = D.USB_NOTCH_DEPTH
-        pts = [(0, 0), (nx0, 0), (nx0, nd), (nx1, nd), (nx1, 0),
-               (length, 0), (length, depth)]
-    else:
-        pts = [(0, 0), (length, 0), (length, depth)]
+        pts += [(nx0, 0), (nx0, nd), (nx1, nd), (nx1, 0)]
+    pts.append((x0 + length, 0))
+    if side:  # finger out at the far end
+        pts += [(x0 + length, b1), (x0 + length + T, b1),
+                (x0 + length + T, b2), (x0 + length, b2)]
+    else:     # cutout in at the far end
+        pts += [(x0 + length, b1), (x0 + length - T, b1),
+                (x0 + length - T, b2), (x0 + length, b2)]
+    pts.append((x0 + length, depth))
     for c in sorted(tabs, reverse=True):
-        x_r, x_l = c + D.TAB_W / 2, c - D.TAB_W / 2
+        x_r, x_l = x0 + c + D.TAB_W / 2, x0 + c - D.TAB_W / 2
         pts += [(x_r, depth), (x_r, depth + T), (x_l, depth + T), (x_l, depth)]
-    pts.append((0, depth))
+    pts.append((x0, depth))
+    if side:  # finger out at the near end
+        pts += [(x0, b2), (x0 - T, b2), (x0 - T, b1), (x0, b1)]
+    else:     # cutout in at the near end
+        pts += [(x0, b2), (x0 + T, b2), (x0 + T, b1), (x0, b1)]
     p.add(poly(pts))
     if name == "bottom":
         # LED slot (the USB opening is the notch in the outline above);
@@ -311,9 +328,9 @@ def build_wall(L, name):
                        L.led_d - D.LED_SLOT_H / 2,
                        D.LED_SLOT_W, D.LED_SLOT_H, rx=D.LED_SLOT_H / 2))
     if name == "right":
-        # light-pipe hole for the power/charging LED; local x runs from the
-        # TOP of the case (install this wall with the hole toward the bottom)
-        p.add(hole(L.pwr_y - T, L.pwr_d, D.PWRLED_HOLE))
+        # light-pipe hole for the power/charging LED; with the corner-finger
+        # shift, local x == case y (install with the hole toward the bottom)
+        p.add(hole(L.pwr_y, L.pwr_d, D.PWRLED_HOLE))
     return p
 
 
