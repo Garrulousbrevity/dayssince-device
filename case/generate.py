@@ -297,6 +297,15 @@ def build_battery_rails(L):
     return p
 
 
+def build_lightbar(L):
+    """Green-glass light bar for the battery LEDs — cut from the Eco Glass
+    sheet, NOT draftboard. Light runs along LED_BAR_LEN (in-plane)."""
+    k = D.KERF
+    p = Piece("led-lightbar", D.LED_BAR_LEN + k, D.LED_BAR_W + k)
+    p.add(rect(-k / 2, -k / 2, D.LED_BAR_LEN + k, D.LED_BAR_W + k))
+    return p
+
+
 def build_wall(L, name):
     T = D.THICKNESS
     length = L.walls[name]["len"]
@@ -335,11 +344,11 @@ def build_wall(L, name):
         pts += [(x0, b2), (x0 + T, b2), (x0 + T, b1), (x0, b1)]
     p.add(poly(pts))
     if name == "bottom":
-        # LED slot (the USB opening is the notch in the outline above);
-        # local y: 0 = front face of cavity
-        p.add(cut_slot(L.led_x - D.LED_SLOT_W / 2,
-                       L.led_d - D.LED_SLOT_H / 2,
-                       D.LED_SLOT_W, D.LED_SLOT_H, rx=D.LED_SLOT_H / 2))
+        # snug pocket for the LED light bar (the USB opening is the notch
+        # in the outline above); local y: 0 = front face of cavity
+        sw = D.LED_BAR_W + D.LED_BAR_SLIP
+        sh = D.LED_BAR_T + D.LED_BAR_SLIP
+        p.add(cut_slot(L.led_x - sw / 2, L.led_d - sh / 2, sw, sh))
     if name == "right":
         # light-pipe hole for the power/charging LED; with the corner-finger
         # shift, local x == case y (install with the hole toward the bottom)
@@ -365,8 +374,8 @@ def build_preview(L, mask):
     # bottom-wall features, projected onto the wall band
     e.append(rect(L.usb_x - D.USB_NOTCH_W / 2, L.h - D.THICKNESS,
                   D.USB_NOTCH_W, D.THICKNESS, KEEPOUT, dash=True))
-    e.append(rect(L.led_x - D.LED_SLOT_W / 2, L.h - D.THICKNESS,
-                  D.LED_SLOT_W, D.THICKNESS, KEEPOUT, dash=True))
+    e.append(rect(L.led_x - D.LED_BAR_W / 2, L.h - D.THICKNESS,
+                  D.LED_BAR_W, D.THICKNESS, KEEPOUT, dash=True))
     e.append(circle(L.w - D.THICKNESS / 2, L.pwr_y,
                     D.PWRLED_HOLE, KEEPOUT, dash=True))
     if D.BATTERY_BESIDE_STACK:
@@ -472,8 +481,8 @@ def run_checks(L):
     T = D.THICKNESS
     for name, x, half_w, depth, half_h in [
             ("usb notch", L.usb_x, D.USB_NOTCH_W / 2, None, None),
-            ("led slot", L.led_x, D.LED_SLOT_W / 2, L.led_d,
-             D.LED_SLOT_H / 2)]:
+            ("led bar slot", L.led_x, (D.LED_BAR_W + D.LED_BAR_SLIP) / 2,
+             L.led_d, (D.LED_BAR_T + D.LED_BAR_SLIP) / 2)]:
         if not (T + 1 <= x - half_w and x + half_w <= L.w - T - 1):
             errs.append(f"bottom-wall {name} runs into a side wall")
         if depth is not None and not (1 <= depth - half_h and depth + half_h
@@ -511,6 +520,7 @@ def main():
     pieces += [build_wall(L, n) for n in ("top", "bottom", "left", "right")]
     if D.BATTERY_BESIDE_STACK:
         pieces.append(build_battery_rails(L))
+    pieces.append(build_lightbar(L))
     for p in pieces:
         p.write()
     build_preview(L, mask)

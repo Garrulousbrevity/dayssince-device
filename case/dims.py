@@ -150,8 +150,16 @@ USB_FROM_BACK = 26.8       # MEASURED 2026-07-12 — back plate → USB-C centre
 USB_OFFSET_X = -21.25      # MEASURED 2026-07-13: board left end → port left
                            # edge 6.75, +4.5 (half of the ~9 connector) =
                            # centre 11.25 from the left end; 11.25 - 32.5.
-LED_SLOT_W = 14.0          # MEASURED 2026-07-13: the 4 battery LEDs span
-LED_SLOT_H = 3.0           # 43–53 from the board's left end (+2/side slack)
+# Battery-LED light bar (2026-07-15): a green-glass bar carries the four
+# LEDs' light through the wall — green through green transmits, and light
+# entering near a lit LED exits near it, so the 1-to-4 count survives. Cut
+# from the Eco Glass sheet (3.0 thick, MEASURED 2026-07-15); friction-fits
+# the wall slot, flush outside, stopping ~0.5 shy of the board edge. The
+# LEDs span 43–53 from the board's left end (MEASURED 2026-07-13).
+LED_BAR_W = 11.0           # spans the LED row + 0.5/side
+LED_BAR_LEN = 10.0         # wall 3.5 + board-edge gap 7.0 − 0.5
+LED_BAR_T = 3.0            # sheet thickness = the bar's third dimension
+LED_BAR_SLIP = 0.15        # slot over bar, per dimension
 LED_OFFSET_X = 15.5        # span centre 48 - 32.5
 LED_FROM_BACK = 26.8       # same board plane as the USB-C
 # No reset pinhole: reset (and the onboard power/custom buttons) stay
