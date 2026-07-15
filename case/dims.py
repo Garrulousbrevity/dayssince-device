@@ -112,14 +112,15 @@ BUTTON_COVER_CLEAR = 18.0  # cover hole when the bushing can't span both layers
 BUTTON_FROM_LEFT = 18.0
 
 # ------------------------------------------------------------------- walls
-INTERNAL_DEPTH = 31.0      # MEASURED 2026-07-12 — full stack on its standoffs
-                           # is 28.2 tall (cross-checks: USB-C centre 26.8 +
-                           # ~1.4 above it); +2.8 clearance. Not 29.7: the USB
-                           # slot must stay ≥1 mm off the wall strip's front
-                           # edge (see run_checks). Walls are the only pieces
-                           # that depend on this — a later soldered
-                           # right-angle header (26.8 → 20.8) would mean
-                           # recutting just the 4 wall strips.
+INTERNAL_DEPTH = 33.2      # DERIVED 2026-07-13 from the panel-clamp chain,
+                           # which must sum exactly to the wall depth:
+                           #   30 (20 F-F + 10 M-F standoffs combined)
+                           # + 1.6 (panel PCB)
+                           # + 1.6 (2 nylon washers — glass-float spacer)
+                           # User's standoff kit is 5 mm increments; the Pi
+                           # stack (28.2 tall) needs ≥ ~29.7, so 30 is the
+                           # smallest workable standoff. Walls are the only
+                           # pieces that depend on this value.
 TAB_W = 12.0
 TAB_SLOT_CLEAR = 0.3       # per slot, on top of kerf; locate-only fit
 # Bottom-wall features (the PiSugar's USB/button/LED edge faces this wall;
@@ -134,7 +135,9 @@ TAB_SLOT_CLEAR = 0.3       # per slot, on top of kerf; locate-only fit
 # closed hole that tall). Sized for typical ≤13.5 x 7 overmolds; front mask
 # covers the notch mouth.
 USB_NOTCH_W = 16.0
-USB_NOTCH_DEPTH = 8.5      # from the wall strip's front edge
+USB_NOTCH_DEPTH = 10.5     # from the wall strip's front edge; must reach
+                           # the port plane (INTERNAL_DEPTH - 26.8) + 3.5
+                           # overmold half-height (run_checks enforces)
 USB_FROM_BACK = 26.8       # MEASURED 2026-07-12 — back plate → USB-C centre:
                            # single standoff + one small standoff, clearing
                            # the F-M right-angle GPIO adapter on the straight
