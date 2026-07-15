@@ -78,6 +78,15 @@ def hole(cx, cy, dia):
     return circle(cx, cy, dia - D.KERF)
 
 
+def hex_hole(cx, cy, flats):
+    """Regular-hexagon hole, kerf-compensated on the across-flats size."""
+    import math
+    r = (flats - D.KERF) / math.sqrt(3)
+    pts = [(cx + r * math.cos(math.radians(60 * i)),
+            cy + r * math.sin(math.radians(60 * i))) for i in range(6)]
+    return poly(pts)
+
+
 def cut_slot(x, y, w, h, rx=0.0):
     k = D.KERF
     return rect(x + k / 2, y + k / 2, w - k, h - k, rx=max(0.0, rx - k / 2))
@@ -236,7 +245,12 @@ def build_mask_plate(L):
     for x, y, w, h in L.windows:
         p.add(cut_slot(x, y, w, h, rx=1.0))
     fastener_holes(p, L)
-    p.add(hole(*L.button, D.BUTTON_HOLE))
+    # 2-layer front: captive hex pocket for the button nut; the button screws
+    # in from the front through the cover into the trapped nut
+    if D.FRONT_LAYERS == 1:
+        p.add(hole(*L.button, D.BUTTON_HOLE))
+    else:
+        p.add(hex_hole(*L.button, D.BUTTON_NUT_FLATS))
     return p
 
 
@@ -244,8 +258,7 @@ def build_cover_plate(L):
     p = Piece("front-cover", L.w, L.h)
     p.add(outer_rrect(L.w, L.h, D.CORNER_RADIUS))
     fastener_holes(p, L)
-    d = D.BUTTON_HOLE if D.BUTTON_SPANS_BOTH_LAYERS else D.BUTTON_COVER_CLEAR
-    p.add(hole(*L.button, d))
+    p.add(hole(*L.button, D.BUTTON_HOLE))
     return p
 
 

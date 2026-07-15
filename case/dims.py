@@ -22,10 +22,13 @@ SHEET_W, SHEET_H = 495.0, 279.0   # usable Glowforge bed
 # 1 = opaque plate with open bezel windows (original design)
 # 2 = full-face Green Glass cover laminated over the windowed mask plate
 FRONT_LAYERS = 2           # generate both; decide when the Green Glass is seen
-# True once the button bushing is confirmed to span both front layers
-# (~6.4 mm); False = cover gets a big clearance hole, button grabs mask only.
-BUTTON_SPANS_BOTH_LAYERS = True    # MEASURED 2026-07-12 — 18 mm usable thread
-                                   # vs ~10 mm needed (2 layers + washer + nut)
+# Button mounts to the OUTER (cover) layer only — dry-fit 2026-07-15 showed
+# the bushing's real usable thread is ~7 mm (not the bare-part 18), too short
+# for both sheets. The mask gets a CAPTIVE HEX POCKET instead of a round
+# hole: drop the nut (+ washer against the cover) into the pocket, stack the
+# layers, and screw the button in from the FRONT — no fingers behind the
+# plate, and the button stays serviceable without opening the case. With
+# FRONT_LAYERS = 1 the mask is the only layer and gets the 16 mm hole itself.
 
 # ------------------------------------------------- panels (portrait, each)
 # Waveshare 4.2" B rev 2.2, PCB rotated 90° so native 103.0 x 78.5 stands up.
@@ -105,9 +108,11 @@ M25_CLEAR = 2.8
 SCREW_HEAD_CLEAR = 6.5     # pass-through for M3/M2.5 heads in the magnet layer
 
 # ------------------------------------------------------------------ button
-BUTTON_HOLE = 16.2         # 16 mm threaded bushing + slip
+BUTTON_HOLE = 16.2         # 16 mm threaded bushing + slip (cover layer)
 BUTTON_BODY_DIA = 20.0     # keep-out behind the plate (body + solder lugs)
-BUTTON_COVER_CLEAR = 18.0  # cover hole when the bushing can't span both layers
+BUTTON_NUT_FLATS = 19.2    # MEASURED 2026-07-15 — hex nut 18.8 across flats
+                           # (~21.5 across points, consistent) + 0.4 slip;
+                           # the mask's hex pocket makes the nut captive
 # Button centre, from cavity LEFT edge / zone vertical centre
 BUTTON_FROM_LEFT = 18.0
 
