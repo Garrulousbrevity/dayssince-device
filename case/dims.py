@@ -156,7 +156,9 @@ USB_OFFSET_X = -21.25      # MEASURED 2026-07-13: board left end → port left
 # from the Eco Glass sheet (3.0 thick, MEASURED 2026-07-15); friction-fits
 # the wall slot, flush outside, stopping ~0.5 shy of the board edge. The
 # LEDs span 43–53 from the board's left end (MEASURED 2026-07-13).
-LED_BAR_W = 11.0           # spans the LED row + 0.5/side
+LED_BAR_W = 13.9           # sized to the as-cut wall's original 14-wide slot
+                           # (generously covers the 10 mm LED row); future
+                           # walls cut the pocket at bar + slip regardless
 LED_BAR_LEN = 10.0         # wall 3.5 + board-edge gap 7.0 − 0.5
 LED_BAR_T = 3.0            # sheet thickness = the bar's third dimension
 LED_BAR_SLIP = 0.15        # slot over bar, per dimension
