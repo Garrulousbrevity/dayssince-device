@@ -306,6 +306,15 @@ def build_lightbar(L):
     return p
 
 
+def build_pwr_rod(L):
+    """Blue-acrylic square rod for the power light — cut from the blue
+    sheet, NOT draftboard. Light runs along PWRLED_ROD_LEN (in-plane)."""
+    k = D.KERF
+    p = Piece("pwr-lightrod", D.PWRLED_ROD_LEN + k, D.PWRLED_ROD_T + k)
+    p.add(rect(-k / 2, -k / 2, D.PWRLED_ROD_LEN + k, D.PWRLED_ROD_T + k))
+    return p
+
+
 def build_wall(L, name):
     T = D.THICKNESS
     length = L.walls[name]["len"]
@@ -350,9 +359,13 @@ def build_wall(L, name):
         sh = D.LED_BAR_T + D.LED_BAR_SLIP
         p.add(cut_slot(L.led_x - sw / 2, L.led_d - sh / 2, sw, sh))
     if name == "right":
-        # light-pipe hole for the power/charging LED; with the corner-finger
-        # shift, local x == case y (install with the hole toward the bottom)
-        p.add(hole(L.pwr_y, L.pwr_d, D.PWRLED_HOLE))
+        # power/charging light aperture; with the corner-finger shift,
+        # local x == case y (install with it toward the bottom)
+        if D.PWRLED_STYLE == "rod":
+            s = D.PWRLED_ROD_T + D.PWRLED_SLIP
+            p.add(cut_slot(L.pwr_y - s / 2, L.pwr_d - s / 2, s, s))
+        else:
+            p.add(hole(L.pwr_y, L.pwr_d, D.PWRLED_PIPE_HOLE))
     return p
 
 
@@ -377,7 +390,9 @@ def build_preview(L, mask):
     e.append(rect(L.led_x - D.LED_BAR_W / 2, L.h - D.THICKNESS,
                   D.LED_BAR_W, D.THICKNESS, KEEPOUT, dash=True))
     e.append(circle(L.w - D.THICKNESS / 2, L.pwr_y,
-                    D.PWRLED_HOLE, KEEPOUT, dash=True))
+                    D.PWRLED_ROD_T + D.PWRLED_SLIP
+                    if D.PWRLED_STYLE == "rod" else D.PWRLED_PIPE_HOLE,
+                    KEEPOUT, dash=True))
     if D.BATTERY_BESIDE_STACK:
         e.append(rect(*L.battery, KEEPOUT, dash=True))
     stack_label = ("pi + pisugar" if D.BATTERY_BESIDE_STACK
@@ -495,7 +510,8 @@ def run_checks(L):
         errs.append("usb notch depth wrong for the port plane")
 
     # power-light hole must land on the right wall strip
-    r = D.PWRLED_HOLE / 2
+    r = ((D.PWRLED_ROD_T + D.PWRLED_SLIP)
+         if D.PWRLED_STYLE == "rod" else D.PWRLED_PIPE_HOLE) / 2
     pos = L.pwr_y - T
     if not (1 + r <= pos <= (L.h - 2 * T) - 1 - r):
         errs.append("right-wall power-light hole off the strip")
@@ -521,6 +537,8 @@ def main():
     if D.BATTERY_BESIDE_STACK:
         pieces.append(build_battery_rails(L))
     pieces.append(build_lightbar(L))
+    if D.PWRLED_STYLE == "rod":
+        pieces.append(build_pwr_rod(L))
     for p in pieces:
         p.write()
     build_preview(L, mask)

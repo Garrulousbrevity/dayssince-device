@@ -167,9 +167,17 @@ LED_FROM_BACK = 26.8       # same board plane as the USB-C
 # No reset pinhole: reset (and the onboard power/custom buttons) stay
 # internal — the front arcade button clones power via pad 10.
 # Power/charging light: on the board's RIGHT short edge, facing the right
-# wall 8 mm away. 3.0 mm hole for a VCC LFB 3 mm press-fit light pipe
-# (trim the TAIL to ~11-12 mm; the cut end faces the LED).
-PWRLED_HOLE = 3.0
+# wall 8 mm away. DECIDED 2026-07-15: a blue-acrylic square rod (matches the
+# battery light bar's treatment; blue-through-blue transmits and filters the
+# interior green bleed). Fallback if the VCC pipes win on looks: set
+# PWRLED_STYLE = "pipe" and recut just the right wall (3.0 round crush-rib
+# hole; trim the pipe TAIL to ~11-12, cut end toward the LED).
+PWRLED_STYLE = "rod"           # "rod" (square pocket) | "pipe" (round hole)
+PWRLED_ROD_T = 3.2             # UNVERIFIED — caliper the blue sheet; the rod
+                               # is cut T wide so its section comes out square
+PWRLED_ROD_LEN = 11.0          # wall 3.5 + right-edge gap 8.0 − 0.5
+PWRLED_SLIP = 0.15             # pocket over rod, per dimension
+PWRLED_PIPE_HOLE = 3.0         # the pipe fallback's hole
 PWRLED_FROM_GPIO_EDGE = 9.25   # MEASURED 2026-07-13: GPIO-side (top) corner
                                # → LED near side 8.5, +~0.75 to centre
 PWRLED_FROM_BACK = 26.8        # board plane, same as the bottom-edge features

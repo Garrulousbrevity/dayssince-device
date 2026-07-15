@@ -29,7 +29,7 @@
 <circle cx="139" cy="92.5" r="16" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
 <rect x="99.75" y="153.5" width="16" height="3.5" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
 <rect x="137.55" y="153.5" width="13.9" height="3.5" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<circle cx="171.25" cy="125.75" r="1.5" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<circle cx="171.25" cy="125.75" r="1.675" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
 <rect x="33.5" y="116.5" width="59" height="30" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
 <text x="45.75" y="5.5" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">tens</text>
 <text x="127.25" y="5.5" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">ones</text>
