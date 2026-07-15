@@ -53,7 +53,7 @@
 </g>
 <g transform="translate(162,203.7)">
 <polygon points="3.5,0 153.5,0 153.5,11.067 157,11.067 157,22.133 153.5,22.133 153.5,33.2 118,33.2 118,36.7 106,36.7 106,33.2 51,33.2 51,36.7 39,36.7 39,33.2 3.5,33.2 3.5,22.133 0,22.133 0,11.067 3.5,11.067" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<rect x="124.165" y="4.815" width="3.17" height="3.17" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="124.44" y="5.09" width="2.62" height="2.62" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 </g>
 <g transform="translate(324,203.7)">
 <rect x="-0.09" y="-0.09" width="62.18" height="4.18" fill="none" stroke="#ff0000" stroke-width="0.15"/>
@@ -64,6 +64,6 @@
 <rect x="-0.09" y="-0.09" width="10.18" height="14.08" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 </g>
 <g transform="translate(406.36,203.7)">
-<rect x="-0.09" y="-0.09" width="11.18" height="3.38" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="-0.09" y="-0.09" width="11.18" height="2.83" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 </g>
 </svg>

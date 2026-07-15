@@ -173,8 +173,10 @@ LED_FROM_BACK = 26.8       # same board plane as the USB-C
 # PWRLED_STYLE = "pipe" and recut just the right wall (3.0 round crush-rib
 # hole; trim the pipe TAIL to ~11-12, cut end toward the LED).
 PWRLED_STYLE = "rod"           # "rod" (square pocket) | "pipe" (round hole)
-PWRLED_ROD_T = 3.2             # UNVERIFIED — caliper the blue sheet; the rod
-                               # is cut T wide so its section comes out square
+PWRLED_ROD_T = 2.65            # MEASURED 2026-07-15 — blue sheet is 2.65 bare;
+                               # cut the rod this wide so its section is square
+                               # (2.65 x 2.65). NB kerf ran ~0.09 wide on the
+                               # test rod (3.2 drawn → 3.11) — watch on walls.
 PWRLED_ROD_LEN = 11.0          # wall 3.5 + right-edge gap 8.0 − 0.5
 PWRLED_SLIP = 0.15             # pocket over rod, per dimension
 PWRLED_PIPE_HOLE = 3.0         # the pipe fallback's hole
