@@ -139,10 +139,12 @@ TAB_SLOT_CLEAR = 0.3       # per slot, on top of kerf; locate-only fit
 # (the port centre is only 4.2 mm behind the front face — no room for a
 # closed hole that tall). Sized for typical ≤13.5 x 7 overmolds; front mask
 # covers the notch mouth.
-USB_NOTCH_W = 16.0
-USB_NOTCH_DEPTH = 10.5     # from the wall strip's front edge; must reach
-                           # the port plane (INTERNAL_DEPTH - 26.8) + 3.5
-                           # overmold half-height (run_checks enforces)
+# Sized to the MEASURED magnetic cable head 2026-07-15: 13 wide (along the
+# wall length) x 8.25 tall (front-to-back into the case).
+USB_NOTCH_W = 14.5         # head 13 + 0.75/side
+USB_NOTCH_DEPTH = 11.5     # port face at INTERNAL_DEPTH-26.8 = 6.4 from front;
+                           # 8.25-tall head centred there reaches ~10.5, +1
+                           # clearance behind it (run_checks enforces the min)
 USB_FROM_BACK = 26.8       # MEASURED 2026-07-12 — back plate → USB-C centre:
                            # single standoff + one small standoff, clearing
                            # the F-M right-angle GPIO adapter on the straight
