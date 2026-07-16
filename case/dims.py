@@ -121,10 +121,10 @@ BUTTON_NUT_FLATS = 19.2    # MEASURED 2026-07-15 — hex nut 18.8 across flats
 BUTTON_FROM_LEFT = 18.0
 
 # ------------------------------------------------------------------- walls
-INTERNAL_DEPTH = 34.5      # EMPIRICAL 2026-07-15 — a 34.0 wall just kissed the
-                           # plates with no grip (pulls out); +0.5 for a
-                           # draftboard press fit. Walls drawn uncompensated
-                           # finish ~kerf small, so this nets ~0.5 interference.
+INTERNAL_DEPTH = 34.75     # EMPIRICAL — 34.0 no grip, 34.5 held but a light
+                           # tap dislodged it; +0.25 more for a firm press.
+                           # Walls drawn uncompensated finish ~kerf small.
+                           # If a tap still shifts it, → 35.0.
                            # Safe: the combined standoff is threaded BOTH ends,
                            # so the screen clamp is a self-contained FRONT joint
                            # (front screw → plate → washers → PCB → standoff
@@ -158,12 +158,9 @@ USB_FROM_BACK = 25.8       # CORRECTED 2026-07-15 — the closed-hole test cut
                            # the hole, i.e. 1 mm closer to the back plate than
                            # the 26.8 measurement (board plane was off). LED +
                            # power share this plane, so both moved with it.
-USB_OFFSET_X = -20.25      # ADJUSTED 2026-07-15 — port was tight against the
-                           # Pi-side edge of the hole with ~2 mm gap on the
-                           # far side; moved the hole 1 mm toward the tight
-                           # (Pi) side to centre it. Was -21.25. If the recut
-                           # is worse, the wall reads mirrored from below —
-                           # flip the sign.
+USB_OFFSET_X = -20.5       # the +1.0 move (−21.25→−20.25) slightly over-
+                           # centred toward the Pi; backed off 0.25. Direction
+                           # confirmed correct (over-, not wrong-way).
 # Battery-LED light bar (2026-07-15): a green-glass bar carries the four
 # LEDs' light through the wall — green through green transmits, and light
 # entering near a lit LED exits near it, so the 1-to-4 count survives. Cut
@@ -177,7 +174,10 @@ LED_BAR_LEN = 10.0         # wall 3.5 + board-edge gap 7.0 − 0.5
 LED_BAR_T = 3.0            # sheet thickness = the bar's third dimension
 LED_BAR_SLIP = 0.05        # TIGHTENED 2026-07-15 — was 0.15 + wrong kerf =
                            # fell out; 0.05 + the KERF fix gives a friction fit
-LED_OFFSET_X = 15.5        # span centre 48 - 32.5
+LED_OFFSET_X = 13.5        # shifted 2 toward the LEDs / away from the power
+                           # button (was 15.5; button still showed). Verify all
+                           # 4 LEDs stay covered — the button sits close to the
+                           # rightmost LED, so a sliver clip may be the tradeoff
 LED_FROM_BACK = 25.8       # same board plane as the USB-C (corrected -1)
 # No reset pinhole: reset (and the onboard power/custom buttons) stay
 # internal — the front arcade button clones power via pad 10.

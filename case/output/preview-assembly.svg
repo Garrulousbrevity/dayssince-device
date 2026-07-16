@@ -27,16 +27,16 @@
 <circle cx="151" cy="35" r="16" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
 <circle cx="34" cy="92.5" r="16" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
 <circle cx="139" cy="92.5" r="16" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<rect x="101.5" y="153.5" width="14.5" height="3.5" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<rect x="139" y="153.5" width="11" height="3.5" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<rect x="101.25" y="153.5" width="14.5" height="3.5" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<rect x="137" y="153.5" width="11" height="3.5" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
 <circle cx="171.25" cy="125.75" r="1.4" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
 <rect x="33.5" y="116.5" width="59" height="30" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
 <text x="45.75" y="5.5" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">tens</text>
 <text x="127.25" y="5.5" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">ones</text>
 <text x="129" y="151.5" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">pi + pisugar</text>
 <text x="21.5" y="146.5" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">button</text>
-<text x="144.5" y="161" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">leds</text>
-<text x="108.75" y="165" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">usb-c</text>
+<text x="142.5" y="161" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">leds</text>
+<text x="108.5" y="165" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">usb-c</text>
 <text x="179" y="126.75" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">pwr</text>
 <text x="63" y="131.5" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">battery</text></g>
 </svg>
