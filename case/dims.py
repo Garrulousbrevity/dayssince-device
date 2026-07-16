@@ -128,15 +128,13 @@ BUTTON_NUT_FLATS = 19.2    # MEASURED 2026-07-15 — hex nut 18.8 across flats
 BUTTON_FROM_LEFT = 18.0
 
 # ------------------------------------------------------------------- walls
-INTERNAL_DEPTH = 34.0      # ACRYLIC slip fit (2026-07-15). Draftboard wanted
-                           # 35.0 for a friction press (it crushes a few
-                           # tenths); acrylic won't crush — it bows — so size
-                           # to ~the gap. Measured gap ~33.5, draftboard just
-                           # touched at 34.0-drawn, so 34.0 nets a whisker of
-                           # snug in acrylic; if the test wall is tight/bows,
-                           # drop toward 33.7. Apertures are back-referenced
-                           # (FROM_BACK from the tabbed shoulder), so they stay
-                           # aligned to the board regardless of this value.
+INTERNAL_DEPTH = 35.0      # Same as draftboard — the fit is a FRICTION fit
+                           # with only a couple tenths of interference (the
+                           # "1.3mm crush / acrylic bows" worry was built on the
+                           # debunked crush figure; a couple tenths is nothing
+                           # to acrylic). Acrylic's smaller kerf makes the wall
+                           # finish ~0.1 longer than draftboard at the same 35.0
+                           # → a hair tighter; drop a touch only if it binds.
                            # Safe: the combined standoff is threaded BOTH ends,
                            # so the screen clamp is a self-contained FRONT joint
                            # (front screw → plate → washers → PCB → standoff
