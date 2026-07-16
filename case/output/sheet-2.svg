@@ -42,28 +42,28 @@
 <circle cx="158" cy="143" r="3.16" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 </g>
 <g transform="translate(0,162)">
-<polygon points="0,0 173,0 173,11.167 169.5,11.167 169.5,22.333 173,22.333 173,33.5 130,33.5 130,37 118,37 118,33.5 55,33.5 55,37 43,37 43,33.5 0,33.5 0,22.333 3.5,22.333 3.5,11.167 0,11.167" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<polygon points="0,0 173,0 173,11.333 169.5,11.333 169.5,22.667 173,22.667 173,34 130,34 130,37.5 118,37.5 118,34 55,34 55,37.5 43,37.5 43,34 0,34 0,22.667 3.5,22.667 3.5,11.333 0,11.333" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 </g>
 <g transform="translate(178,162)">
-<polygon points="0,0 100.5,0 100.5,12 115,12 115,0 173,0 173,11.167 169.5,11.167 169.5,22.333 173,22.333 173,33.5 130,33.5 130,37 118,37 118,33.5 55,33.5 55,37 43,37 43,33.5 0,33.5 0,22.333 3.5,22.333 3.5,11.167 0,11.167" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<rect x="137.565" y="5.215" width="13.87" height="2.97" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<polygon points="0,0 100.5,0 100.5,12.5 115,12.5 115,0 173,0 173,11.333 169.5,11.333 169.5,22.667 173,22.667 173,34 130,34 130,37.5 118,37.5 118,34 55,34 55,37.5 43,37.5 43,34 0,34 0,22.667 3.5,22.667 3.5,11.333 0,11.333" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="137.565" y="5.715" width="13.87" height="2.97" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 </g>
-<g transform="translate(0,204)">
-<polygon points="3.5,0 153.5,0 153.5,11.167 157,11.167 157,22.333 153.5,22.333 153.5,33.5 118,33.5 118,37 106,37 106,33.5 51,33.5 51,37 39,37 39,33.5 3.5,33.5 3.5,22.333 0,22.333 0,11.167 3.5,11.167" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<g transform="translate(0,204.5)">
+<polygon points="3.5,0 153.5,0 153.5,11.333 157,11.333 157,22.667 153.5,22.667 153.5,34 118,34 118,37.5 106,37.5 106,34 51,34 51,37.5 39,37.5 39,34 3.5,34 3.5,22.667 0,22.667 0,11.333 3.5,11.333" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 </g>
-<g transform="translate(162,204)">
-<polygon points="3.5,0 153.5,0 153.5,11.167 157,11.167 157,22.333 153.5,22.333 153.5,33.5 118,33.5 118,37 106,37 106,33.5 51,33.5 51,37 39,37 39,33.5 3.5,33.5 3.5,22.333 0,22.333 0,11.167 3.5,11.167" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<rect x="124.44" y="5.39" width="2.62" height="2.62" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<g transform="translate(162,204.5)">
+<polygon points="3.5,0 153.5,0 153.5,11.333 157,11.333 157,22.667 153.5,22.667 153.5,34 118,34 118,37.5 106,37.5 106,34 51,34 51,37.5 39,37.5 39,34 3.5,34 3.5,22.667 0,22.667 0,11.333 3.5,11.333" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="124.44" y="5.89" width="2.62" height="2.62" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 </g>
-<g transform="translate(324,204)">
+<g transform="translate(324,204.5)">
 <rect x="-0.09" y="-0.09" width="62.18" height="4.18" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 <rect x="-0.09" y="5.91" width="62.18" height="4.18" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 <rect x="-0.09" y="11.91" width="33.18" height="4.18" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 </g>
-<g transform="translate(391.18,204)">
+<g transform="translate(391.18,204.5)">
 <rect x="-0.09" y="-0.09" width="10.18" height="14.08" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 </g>
-<g transform="translate(406.36,204)">
+<g transform="translate(406.36,204.5)">
 <rect x="-0.09" y="-0.09" width="11.18" height="2.83" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 </g>
 </svg>

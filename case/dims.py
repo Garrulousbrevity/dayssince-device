@@ -117,14 +117,16 @@ BUTTON_NUT_FLATS = 19.2    # MEASURED 2026-07-15 — hex nut 18.8 across flats
 BUTTON_FROM_LEFT = 18.0
 
 # ------------------------------------------------------------------- walls
-INTERNAL_DEPTH = 33.5      # MEASURED 2026-07-15 — direct front-to-back gap of
-                           # the assembled 30 mm standoff (20 F-F + 10 M-F)
-                           # stack. Fills exactly; add 0.1-0.2 for a friction
-                           # snug in draftboard, but NOT for acrylic (walls >
-                           # the rigid gap prop the plates apart and float the
-                           # screens — instead shim the standoffs up to meet a
-                           # slightly taller wall if you want them clamped).
-                           # Supersedes the 33.2 derivation (washer+PCB guess).
+INTERNAL_DEPTH = 34.0      # Measured standoff-stack gap is 33.5; set 0.5 over
+                           # for a guaranteed-snug wall. The combined standoff
+                           # is threaded BOTH ends, so the screen clamp is a
+                           # self-contained FRONT joint (front screw → plate →
+                           # washers → PCB → standoff front face) — untouched
+                           # by wall length. Excess pushes the BACK PLATE a
+                           # hair proud of the standoff back face; the back
+                           # screw bridges it, screens stay clamped. Keep the
+                           # overshoot modest (≲2) so the back screw keeps
+                           # thread. Works the same in acrylic (2026-07-15).
 TAB_W = 12.0
 TAB_SLOT_CLEAR = 0.3       # per slot, on top of kerf; locate-only fit
 # Bottom-wall features (the PiSugar's USB/button/LED edge faces this wall;
@@ -141,8 +143,8 @@ TAB_SLOT_CLEAR = 0.3       # per slot, on top of kerf; locate-only fit
 # Sized to the MEASURED magnetic cable head 2026-07-15: 13 wide (along the
 # wall length) x 8.25 tall (front-to-back into the case).
 USB_NOTCH_W = 14.5         # head 13 + 0.75/side
-USB_NOTCH_DEPTH = 12.0     # port face at INTERNAL_DEPTH-26.8 = 6.7 from front;
-                           # 8.25-tall head centred there reaches ~10.8, +1.2
+USB_NOTCH_DEPTH = 12.5     # port face at INTERNAL_DEPTH-26.8 = 7.2 from front;
+                           # 8.25-tall head centred there reaches ~11.3, +1.2
                            # clearance behind it (run_checks enforces the min)
 USB_FROM_BACK = 26.8       # MEASURED 2026-07-12 — back plate → USB-C centre:
                            # single standoff + one small standoff, clearing
