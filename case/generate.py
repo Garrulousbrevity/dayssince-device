@@ -325,25 +325,30 @@ def build_wall(L, name):
     # walls get the complementary end cutouts — the four walls interlock
     # into a self-holding rim before the back-plate tabs engage.
     b1, b2 = depth / 3, 2 * depth / 3
+    # kerf-compensated finger band (male, widened) vs cutout band (female,
+    # narrowed) so the corner joints finish line-to-line, not ~2*kerf loose
+    fc = D.FINGER_KERF / 2
+    fb1, fb2 = b1 - fc, b2 + fc        # finger (side walls)
+    cb1, cb2 = b1 + fc, b2 - fc        # cutout (top/bottom walls)
     side = name in ("left", "right")
     x0 = T if side else 0.0          # local x where the wall's span starts
     p = Piece(f"wall-{name}", length + (2 * T if side else 0), depth + T)
     pts = [(x0, 0), (x0 + length, 0)]
     if side:  # finger out at the far end
-        pts += [(x0 + length, b1), (x0 + length + T, b1),
-                (x0 + length + T, b2), (x0 + length, b2)]
+        pts += [(x0 + length, fb1), (x0 + length + T, fb1),
+                (x0 + length + T, fb2), (x0 + length, fb2)]
     else:     # cutout in at the far end
-        pts += [(x0 + length, b1), (x0 + length - T, b1),
-                (x0 + length - T, b2), (x0 + length, b2)]
+        pts += [(x0 + length, cb1), (x0 + length - T, cb1),
+                (x0 + length - T, cb2), (x0 + length, cb2)]
     pts.append((x0 + length, depth))
     for c in sorted(tabs, reverse=True):
         x_r, x_l = x0 + c + D.TAB_W / 2, x0 + c - D.TAB_W / 2
         pts += [(x_r, depth), (x_r, depth + T), (x_l, depth + T), (x_l, depth)]
     pts.append((x0, depth))
     if side:  # finger out at the near end
-        pts += [(x0, b2), (x0 - T, b2), (x0 - T, b1), (x0, b1)]
+        pts += [(x0, fb2), (x0 - T, fb2), (x0 - T, fb1), (x0, fb1)]
     else:     # cutout in at the near end
-        pts += [(x0, b2), (x0 + T, b2), (x0 + T, b1), (x0, b1)]
+        pts += [(x0, cb2), (x0 + T, cb2), (x0 + T, cb1), (x0, cb1)]
     p.add(poly(pts))
     if name == "bottom":
         # closed USB hole + snug pocket for the LED light bar; local y:

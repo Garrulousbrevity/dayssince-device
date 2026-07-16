@@ -147,6 +147,13 @@ INTERNAL_DEPTH = 35.0      # Same as draftboard — the fit is a FRICTION fit
                            # clamped. Keep overshoot ≲2. If still loose, → 35.
 TAB_W = 12.0
 TAB_SLOT_CLEAR = 0.3       # per slot, on top of kerf; locate-only fit
+# Corner-finger kerf compensation (2026-07-16): the finger (male) and cutout
+# (female) are drawn the same, but the beam shrinks the male and grows the
+# female → ~2*kerf of play (loose in the acrylic test pair). Widen the finger
+# and narrow the cutout by half this each, per side, so they finish line-to-
+# line. Set to the MEASURED acrylic kerf (0.18); bump slightly above it for an
+# interference snap, but acrylic cracks — go up in 0.02 steps if needed.
+FINGER_KERF = 0.18
 # Bottom-wall features (the PiSugar's USB/button/LED edge faces this wall;
 # offsets along the wall are from the Pi stack centre, case x). Depths are
 # measured from the BACK plate — the stack mounts on back-plate standoffs,
