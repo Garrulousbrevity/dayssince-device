@@ -121,12 +121,19 @@ BUTTON_NUT_FLATS = 19.2    # MEASURED 2026-07-15 — hex nut 18.8 across flats
 BUTTON_FROM_LEFT = 18.0
 
 # ------------------------------------------------------------------- walls
-INTERNAL_DEPTH = 35.0      # EMPIRICAL — 34.0 no grip, 34.5 held but a light
-                           # tap dislodged it, LEDs at the rightmost aren't
-                           # crowding the button; user jumped to 35.0 for a
-                           # firm press. Walls drawn uncompensated finish
-                           # ~kerf small; the back plate absorbs the ~1.3
-                           # excess over the ~33.7 gap (screens stay clamped).
+INTERNAL_DEPTH = 35.0      # EMPIRICAL (DRAFTBOARD) — 34.0 no grip, 34.5 held
+                           # but a tap dislodged it, 35.0 = firm press.
+                           # MODEL (corrected 2026-07-15): the screen/standoff
+                           # stack is screwed rigid, so the assembly is fixed
+                           # at its ~46 external dim and the plates can't
+                           # separate. An over-long wall doesn't ride the back
+                           # plate proud — it COMPRESSES. Draftboard crushes
+                           # the ~1.3 excess over the ~33.7 gap for grip;
+                           # screens stay clamped (front joint is independent).
+                           # ACRYLIC WON'T CRUSH — a strip told to lose 1.3
+                           # bows/buckles. Size the acrylic walls ≈ the gap
+                           # (~33.7, slip fit); they're held by tabs + corner
+                           # fingers + the front plate, not by compression.
                            # Safe: the combined standoff is threaded BOTH ends,
                            # so the screen clamp is a self-contained FRONT joint
                            # (front screw → plate → washers → PCB → standoff
