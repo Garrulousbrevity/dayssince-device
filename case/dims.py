@@ -12,9 +12,16 @@ mounting-hole offsets are rev-dependent and the critical dims).
 """
 
 # ---------------------------------------------------------------- material
-THICKNESS = 3.5            # MEASURED 2026-07-12 — draftboard (~3.5 everywhere).
-                           # Red acrylic measured ~3.25 — split into
-                           # per-material constants before the final acrylic cut.
+THICKNESS = 3.5            # Reference thickness — drives case outer size, all
+                           # feature positions, the draftboard back plate, and
+                           # (deliberately) the WALL geometry too: the back
+                           # plate is already cut with 3.5-based tab slots +
+                           # glued magnets, so re-basing the walls to 3.25
+                           # would shift the side-wall tabs out of their slots.
+WALL_THICKNESS = 3.25      # MEASURED 2026-07-15 — black acrylic walls. NOT used
+                           # in geometry (see above); the only effect of the
+                           # 0.25 gap is the corner fingers land ~0.25 proud —
+                           # sand them flush. Recorded for reference.
 KERF = 0.27                # CALIBRATED 2026-07-15 — draftboard: the 3.2-drawn
                            # test rod finished 3.11 (0.09 under) at KERF 0.18,
                            # so real kerf ≈ 0.27. This tightened the loose
@@ -121,17 +128,15 @@ BUTTON_NUT_FLATS = 19.2    # MEASURED 2026-07-15 — hex nut 18.8 across flats
 BUTTON_FROM_LEFT = 18.0
 
 # ------------------------------------------------------------------- walls
-INTERNAL_DEPTH = 35.0      # EMPIRICAL (DRAFTBOARD), dialed by feel: 34.0 no
-                           # grip, 34.5 a tap dislodged it, 35.0 firm. The
-                           # real interference over the true gap is only a few
-                           # tenths — the grip is FRICTION, not bulk crush (an
-                           # earlier "~1.3 crush" note was bad arithmetic off a
-                           # noisy gap measurement; MDF can't compress that
-                           # far). The screwed screen stack stays rigid, so the
-                           # screens are clamped regardless of this value.
-                           # ACRYLIC gives even less and its kerf differs —
-                           # don't assume 35.0 transfers; dial it on an acrylic
-                           # scrap cut and lean on the tabs + corner fingers.
+INTERNAL_DEPTH = 34.0      # ACRYLIC slip fit (2026-07-15). Draftboard wanted
+                           # 35.0 for a friction press (it crushes a few
+                           # tenths); acrylic won't crush — it bows — so size
+                           # to ~the gap. Measured gap ~33.5, draftboard just
+                           # touched at 34.0-drawn, so 34.0 nets a whisker of
+                           # snug in acrylic; if the test wall is tight/bows,
+                           # drop toward 33.7. Apertures are back-referenced
+                           # (FROM_BACK from the tabbed shoulder), so they stay
+                           # aligned to the board regardless of this value.
                            # Safe: the combined standoff is threaded BOTH ends,
                            # so the screen clamp is a self-contained FRONT joint
                            # (front screw → plate → washers → PCB → standoff
