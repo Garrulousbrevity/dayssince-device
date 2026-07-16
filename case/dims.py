@@ -22,11 +22,15 @@ WALL_THICKNESS = 3.25      # MEASURED 2026-07-15 — black acrylic walls. NOT us
                            # in geometry (see above); the only effect of the
                            # 0.25 gap is the corner fingers land ~0.25 proud —
                            # sand them flush. Recorded for reference.
-KERF = 0.27                # CALIBRATED 2026-07-15 — draftboard: the 3.2-drawn
-                           # test rod finished 3.11 (0.09 under) at KERF 0.18,
-                           # so real kerf ≈ 0.27. This tightened the loose
-                           # LED-bar/USB fits. NB acrylic kerf differs — re-
-                           # calibrate for the black-acrylic walls.
+KERF = 0.27                # Draftboard real kerf ≈ 0.27 (3.2-drawn rod finished
+                           # 3.11). Black acrylic's OWN kerf measured ~0.18
+                           # (USB hole finished 14.41 vs 14.5 target) — but
+                           # KEEP 0.27 for the walls: it lands compensated
+                           # openings ~0.09 under target, which is exactly the
+                           # validated perfect LED-bar fit + fine USB. Don't
+                           # "correct" to 0.18 without re-tuning the bar slip.
+                           # (Finger snap-fit, if wanted, compensates with the
+                           # real 0.18 — separate from this constant.)
 SHEET_W, SHEET_H = 495.0, 279.0   # usable Glowforge bed
 
 # ------------------------------------------------------------ front stack
