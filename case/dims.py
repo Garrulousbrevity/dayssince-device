@@ -179,8 +179,11 @@ LED_BAR_W = 11.0           # NARROWED 2026-07-15 — the 14-wide slot also showe
                            # row (+0.5/side). Recutting the wall anyway.
 LED_BAR_LEN = 10.0         # wall 3.5 + board-edge gap 7.0 − 0.5
 LED_BAR_T = 3.0            # sheet thickness = the bar's third dimension
-LED_BAR_SLIP = 0.05        # TIGHTENED 2026-07-15 — was 0.15 + wrong kerf =
-                           # fell out; 0.05 + the KERF fix gives a friction fit
+LED_BAR_SLIP = 0.15        # back to 0.15 — the 0.05 (paired with the KERF fix)
+                           # double-corrected and pinched the bar. Root cause:
+                           # the glass bar is drawn with the draftboard KERF
+                           # (its own kerf is smaller → runs oversized). Re-
+                           # verify once the slot is in acrylic, not draftboard.
 LED_OFFSET_X = 13.5        # shifted 2 toward the LEDs / away from the power
                            # button (was 15.5; button still showed). Verify all
                            # 4 LEDs stay covered — the button sits close to the
