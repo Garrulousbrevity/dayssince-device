@@ -1,25 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="173mm" height="157mm" viewBox="0 0 173 157">
 <g transform="translate(173,0) scale(-1,1)">
-<rect x="-0.09" y="-0.09" width="173.18" height="157.18" rx="4.09" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="9.625" cy="9.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="81.875" cy="9.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="9.625" cy="106.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="81.875" cy="106.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="91.125" cy="9.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="163.375" cy="9.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="91.125" cy="106.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="163.375" cy="106.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="100" cy="120" r="1.31" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="100" cy="143" r="1.31" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="158" cy="120" r="1.31" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="158" cy="143" r="1.31" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<rect x="42.94" y="-0.06" width="12.12" height="3.62" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<rect x="117.94" y="-0.06" width="12.12" height="3.62" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<rect x="42.94" y="153.44" width="12.12" height="3.62" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<rect x="117.94" y="153.44" width="12.12" height="3.62" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<rect x="-0.06" y="38.94" width="3.62" height="12.12" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<rect x="-0.06" y="105.94" width="3.62" height="12.12" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<rect x="169.44" y="38.94" width="3.62" height="12.12" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<rect x="169.44" y="105.94" width="3.62" height="12.12" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="-0.135" y="-0.135" width="173.27" height="157.27" rx="4.135" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="9.625" cy="9.5" r="1.565" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="81.875" cy="9.5" r="1.565" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="9.625" cy="106.5" r="1.565" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="81.875" cy="106.5" r="1.565" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="91.125" cy="9.5" r="1.565" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="163.375" cy="9.5" r="1.565" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="91.125" cy="106.5" r="1.565" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="163.375" cy="106.5" r="1.565" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="100" cy="120" r="1.265" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="100" cy="143" r="1.265" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="158" cy="120" r="1.265" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="158" cy="143" r="1.265" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="42.985" y="-0.015" width="12.03" height="3.53" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="117.985" y="-0.015" width="12.03" height="3.53" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="42.985" y="153.485" width="12.03" height="3.53" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="117.985" y="153.485" width="12.03" height="3.53" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="-0.015" y="38.985" width="3.53" height="12.03" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="-0.015" y="105.985" width="3.53" height="12.03" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="169.485" y="38.985" width="3.53" height="12.03" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="169.485" y="105.985" width="3.53" height="12.03" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 </g>
 </svg>

@@ -1,16 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="189mm" height="173mm" viewBox="0 0 189 173">
-<g transform="translate(8,8)"><rect x="-0.09" y="-0.09" width="173.18" height="157.18" rx="4.09" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<rect x="17.79" y="14.94" width="64.92" height="86.12" rx="0.91" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<rect x="99.29" y="14.94" width="64.92" height="86.12" rx="0.91" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="9.625" cy="9.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="81.875" cy="9.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="9.625" cy="106.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="81.875" cy="106.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="91.125" cy="9.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="163.375" cy="9.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="91.125" cy="106.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<circle cx="163.375" cy="106.5" r="1.61" fill="none" stroke="#ff0000" stroke-width="0.15"/>
-<polygon points="32.481,131.5 26.991,141.01 16.009,141.01 10.519,131.5 16.009,121.99 26.991,121.99" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<g transform="translate(8,8)"><rect x="-0.135" y="-0.135" width="173.27" height="157.27" rx="4.135" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="17.835" y="14.985" width="64.83" height="86.03" rx="0.865" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<rect x="99.335" y="14.985" width="64.83" height="86.03" rx="0.865" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="9.625" cy="9.5" r="1.565" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="81.875" cy="9.5" r="1.565" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="9.625" cy="106.5" r="1.565" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="81.875" cy="106.5" r="1.565" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="91.125" cy="9.5" r="1.565" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="163.375" cy="9.5" r="1.565" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="91.125" cy="106.5" r="1.565" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<circle cx="163.375" cy="106.5" r="1.565" fill="none" stroke="#ff0000" stroke-width="0.15"/>
+<polygon points="32.429,131.5 26.965,140.965 16.035,140.965 10.571,131.5 16.035,122.035 26.965,122.035" fill="none" stroke="#ff0000" stroke-width="0.15"/>
 <rect x="6.5" y="6.5" width="78.5" height="103" fill="none" stroke="#0088ff" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
 <rect x="88" y="6.5" width="78.5" height="103" fill="none" stroke="#0088ff" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
 <rect x="7.25" y="12.5" width="77" height="91" fill="none" stroke="#0088ff" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
@@ -27,8 +27,8 @@
 <circle cx="151" cy="35" r="16" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
 <circle cx="34" cy="92.5" r="16" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
 <circle cx="139" cy="92.5" r="16" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<rect x="100.5" y="153.5" width="14.5" height="3.5" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
-<rect x="137.55" y="153.5" width="13.9" height="3.5" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<rect x="101.5" y="153.5" width="14.5" height="3.5" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
+<rect x="139" y="153.5" width="11" height="3.5" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
 <circle cx="171.25" cy="125.75" r="1.4" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
 <rect x="33.5" y="116.5" width="59" height="30" fill="none" stroke="#00aa44" stroke-width="0.15" stroke-dasharray="1.5,1.5"/>
 <text x="45.75" y="5.5" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">tens</text>
@@ -36,7 +36,7 @@
 <text x="129" y="151.5" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">pi + pisugar</text>
 <text x="21.5" y="146.5" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">button</text>
 <text x="144.5" y="161" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">leds</text>
-<text x="107.75" y="165" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">usb-c</text>
+<text x="108.75" y="165" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">usb-c</text>
 <text x="179" y="126.75" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">pwr</text>
 <text x="63" y="131.5" font-size="3.5" font-family="sans-serif" fill="#666666" text-anchor="middle">battery</text></g>
 </svg>

@@ -15,7 +15,11 @@ mounting-hole offsets are rev-dependent and the critical dims).
 THICKNESS = 3.5            # MEASURED 2026-07-12 — draftboard (~3.5 everywhere).
                            # Red acrylic measured ~3.25 — split into
                            # per-material constants before the final acrylic cut.
-KERF = 0.18                # draftboard starting point; tune after first cut
+KERF = 0.27                # CALIBRATED 2026-07-15 — draftboard: the 3.2-drawn
+                           # test rod finished 3.11 (0.09 under) at KERF 0.18,
+                           # so real kerf ≈ 0.27. This tightened the loose
+                           # LED-bar/USB fits. NB acrylic kerf differs — re-
+                           # calibrate for the black-acrylic walls.
 SHEET_W, SHEET_H = 495.0, 279.0   # usable Glowforge bed
 
 # ------------------------------------------------------------ front stack
@@ -117,16 +121,16 @@ BUTTON_NUT_FLATS = 19.2    # MEASURED 2026-07-15 — hex nut 18.8 across flats
 BUTTON_FROM_LEFT = 18.0
 
 # ------------------------------------------------------------------- walls
-INTERNAL_DEPTH = 34.0      # Measured standoff-stack gap is 33.5; set 0.5 over
-                           # for a guaranteed-snug wall. The combined standoff
-                           # is threaded BOTH ends, so the screen clamp is a
-                           # self-contained FRONT joint (front screw → plate →
-                           # washers → PCB → standoff front face) — untouched
-                           # by wall length. Excess pushes the BACK PLATE a
-                           # hair proud of the standoff back face; the back
-                           # screw bridges it, screens stay clamped. Keep the
-                           # overshoot modest (≲2) so the back screw keeps
-                           # thread. Works the same in acrylic (2026-07-15).
+INTERNAL_DEPTH = 34.5      # EMPIRICAL 2026-07-15 — a 34.0 wall just kissed the
+                           # plates with no grip (pulls out); +0.5 for a
+                           # draftboard press fit. Walls drawn uncompensated
+                           # finish ~kerf small, so this nets ~0.5 interference.
+                           # Safe: the combined standoff is threaded BOTH ends,
+                           # so the screen clamp is a self-contained FRONT joint
+                           # (front screw → plate → washers → PCB → standoff
+                           # front face); excess wall pushes the BACK PLATE a
+                           # hair proud (back screw bridges it), screens stay
+                           # clamped. Keep overshoot ≲2. If still loose, → 35.
 TAB_W = 12.0
 TAB_SLOT_CLEAR = 0.3       # per slot, on top of kerf; locate-only fit
 # Bottom-wall features (the PiSugar's USB/button/LED edge faces this wall;
@@ -149,27 +153,32 @@ USB_HOLE_W = 14.5          # head 13 + 0.75/side
 USB_HOLE_H = 9.0           # head 8.25 + 0.375/side; centred at the port plane
                            # (INTERNAL_DEPTH - USB_FROM_BACK); run_checks keeps
                            # a ≥2 mm bridge to the front edge (else use a notch)
-USB_FROM_BACK = 26.8       # MEASURED 2026-07-12 — back plate → USB-C centre:
-                           # single standoff + one small standoff, clearing
-                           # the F-M right-angle GPIO adapter on the straight
-                           # header (soldered right-angle would allow 20.8)
-USB_OFFSET_X = -21.25      # MEASURED 2026-07-13: board left end → port left
-                           # edge 6.75, +4.5 (half of the ~9 connector) =
-                           # centre 11.25 from the left end; 11.25 - 32.5.
+USB_FROM_BACK = 25.8       # CORRECTED 2026-07-15 — the closed-hole test cut
+                           # showed the port sitting ~1 mm toward the back of
+                           # the hole, i.e. 1 mm closer to the back plate than
+                           # the 26.8 measurement (board plane was off). LED +
+                           # power share this plane, so both moved with it.
+USB_OFFSET_X = -20.25      # ADJUSTED 2026-07-15 — port was tight against the
+                           # Pi-side edge of the hole with ~2 mm gap on the
+                           # far side; moved the hole 1 mm toward the tight
+                           # (Pi) side to centre it. Was -21.25. If the recut
+                           # is worse, the wall reads mirrored from below —
+                           # flip the sign.
 # Battery-LED light bar (2026-07-15): a green-glass bar carries the four
 # LEDs' light through the wall — green through green transmits, and light
 # entering near a lit LED exits near it, so the 1-to-4 count survives. Cut
 # from the Eco Glass sheet (3.0 thick, MEASURED 2026-07-15); friction-fits
 # the wall slot, flush outside, stopping ~0.5 shy of the board edge. The
 # LEDs span 43–53 from the board's left end (MEASURED 2026-07-13).
-LED_BAR_W = 13.9           # sized to the as-cut wall's original 14-wide slot
-                           # (generously covers the 10 mm LED row); future
-                           # walls cut the pocket at bar + slip regardless
+LED_BAR_W = 11.0           # NARROWED 2026-07-15 — the 14-wide slot also showed
+                           # the power button; 11 just covers the 10 mm LED
+                           # row (+0.5/side). Recutting the wall anyway.
 LED_BAR_LEN = 10.0         # wall 3.5 + board-edge gap 7.0 − 0.5
 LED_BAR_T = 3.0            # sheet thickness = the bar's third dimension
-LED_BAR_SLIP = 0.15        # slot over bar, per dimension
+LED_BAR_SLIP = 0.05        # TIGHTENED 2026-07-15 — was 0.15 + wrong kerf =
+                           # fell out; 0.05 + the KERF fix gives a friction fit
 LED_OFFSET_X = 15.5        # span centre 48 - 32.5
-LED_FROM_BACK = 26.8       # same board plane as the USB-C
+LED_FROM_BACK = 25.8       # same board plane as the USB-C (corrected -1)
 # No reset pinhole: reset (and the onboard power/custom buttons) stay
 # internal — the front arcade button clones power via pad 10.
 # Power/charging light: on the board's RIGHT short edge, facing the right
@@ -188,7 +197,8 @@ PWRLED_SLIP = 0.15             # pocket over rod, per dimension
 PWRLED_PIPE_HOLE = 3.0         # the pipe fallback's hole
 PWRLED_FROM_GPIO_EDGE = 9.25   # MEASURED 2026-07-13: GPIO-side (top) corner
                                # → LED near side 8.5, +~0.75 to centre
-PWRLED_FROM_BACK = 26.8        # board plane, same as the bottom-edge features
+PWRLED_FROM_BACK = 25.8        # board plane, same as the bottom-edge features
+                               # (corrected -1 with the USB; verify on recut)
 
 # ----------------------------------------------------------------- magnets
 # DECIDED 2026-07-13 (as built + magnet-test PASSED): the pocket layer glues
