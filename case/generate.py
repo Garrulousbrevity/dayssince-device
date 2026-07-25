@@ -333,7 +333,13 @@ def build_wall(L, name):
     side = name in ("left", "right")
     x0 = T if side else 0.0          # local x where the wall's span starts
     p = Piece(f"wall-{name}", length + (2 * T if side else 0), depth + T)
-    pts = [(x0, 0), (x0 + length, 0)]
+    if name == "bottom":  # USB notch through the front edge (local x == case x)
+        nx0, nx1 = L.usb_x - D.USB_NOTCH_W / 2, L.usb_x + D.USB_NOTCH_W / 2
+        nd = D.USB_NOTCH_DEPTH
+        pts = [(x0, 0), (nx0, 0), (nx0, nd), (nx1, nd), (nx1, 0),
+               (x0 + length, 0)]
+    else:
+        pts = [(x0, 0), (x0 + length, 0)]
     if side:  # finger out at the far end
         pts += [(x0 + length, fb1), (x0 + length + T, fb1),
                 (x0 + length + T, fb2), (x0 + length, fb2)]
@@ -351,10 +357,8 @@ def build_wall(L, name):
         pts += [(x0, cb2), (x0 + T, cb2), (x0 + T, cb1), (x0, cb1)]
     p.add(poly(pts))
     if name == "bottom":
-        # closed USB hole + snug pocket for the LED light bar; local y:
-        # 0 = front face of cavity
-        p.add(cut_slot(L.usb_x - D.USB_HOLE_W / 2, L.usb_d - D.USB_HOLE_H / 2,
-                       D.USB_HOLE_W, D.USB_HOLE_H, rx=1.5))
+        # LED light-bar pocket (USB is the notch in the outline above);
+        # local y: 0 = front face of cavity
         sw = D.LED_BAR_W + D.LED_BAR_SLIP
         sh = D.LED_BAR_T + D.LED_BAR_SLIP
         p.add(cut_slot(L.led_x - sw / 2, L.led_d - sh / 2, sw, sh))
@@ -385,8 +389,8 @@ def build_preview(L, mask):
     for cx, cy in L.magnets:
         e.append(circle(cx, cy, D.MAGNET_DIA, KEEPOUT, dash=True))
     # bottom-wall features, projected onto the wall band
-    e.append(rect(L.usb_x - D.USB_HOLE_W / 2, L.h - D.THICKNESS,
-                  D.USB_HOLE_W, D.THICKNESS, KEEPOUT, dash=True))
+    e.append(rect(L.usb_x - D.USB_NOTCH_W / 2, L.h - D.THICKNESS,
+                  D.USB_NOTCH_W, D.THICKNESS, KEEPOUT, dash=True))
     e.append(rect(L.led_x - D.LED_BAR_W / 2, L.h - D.THICKNESS,
                   D.LED_BAR_W, D.THICKNESS, KEEPOUT, dash=True))
     e.append(circle(L.w - D.THICKNESS / 2, L.pwr_y,
@@ -495,7 +499,7 @@ def run_checks(L):
     # bottom-wall features must land on the strip, clear of the side walls
     T = D.THICKNESS
     for name, x, half_w, depth, half_h in [
-            ("usb hole", L.usb_x, D.USB_HOLE_W / 2, L.usb_d, D.USB_HOLE_H / 2),
+            ("usb notch", L.usb_x, D.USB_NOTCH_W / 2, None, None),
             ("led bar slot", L.led_x, (D.LED_BAR_W + D.LED_BAR_SLIP) / 2,
              L.led_d, (D.LED_BAR_T + D.LED_BAR_SLIP) / 2)]:
         if not (T + 1 <= x - half_w and x + half_w <= L.w - T - 1):
@@ -503,12 +507,11 @@ def run_checks(L):
         if depth is not None and not (1 <= depth - half_h and depth + half_h
                                       <= D.INTERNAL_DEPTH - 1):
             errs.append(f"bottom-wall {name} exceeds the strip depth")
-    # the closed USB hole must keep a solid bridge to the front edge; if the
-    # port sits too shallow for that, the wall needs the front-edge notch
-    if L.usb_d - D.USB_HOLE_H / 2 < 2.0:
-        errs.append(f"usb hole leaves only "
-                    f"{L.usb_d - D.USB_HOLE_H / 2:.1f}mm bridge to the front "
-                    f"edge (<2) — deepen the cavity or use a notch")
+    # the USB notch must reach past the port plane + the head half-height, and
+    # still leave a solid band of strip behind it
+    if not (L.usb_d + 4.125 <= D.USB_NOTCH_DEPTH <= D.INTERNAL_DEPTH - 6):
+        errs.append(f"usb notch depth {D.USB_NOTCH_DEPTH} wrong for the port "
+                    f"plane (need {L.usb_d + 4.125:.1f}..{D.INTERNAL_DEPTH - 6})")
 
     # power-light hole must land on the right wall strip
     r = ((D.PWRLED_ROD_T + D.PWRLED_SLIP)

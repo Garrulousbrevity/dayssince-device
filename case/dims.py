@@ -132,19 +132,16 @@ BUTTON_NUT_FLATS = 19.2    # MEASURED 2026-07-15 — hex nut 18.8 across flats
 BUTTON_FROM_LEFT = 18.0
 
 # ------------------------------------------------------------------- walls
-INTERNAL_DEPTH = 35.0      # Same as draftboard — the fit is a FRICTION fit
-                           # with only a couple tenths of interference (the
-                           # "1.3mm crush / acrylic bows" worry was built on the
-                           # debunked crush figure; a couple tenths is nothing
-                           # to acrylic). Acrylic's smaller kerf makes the wall
-                           # finish ~0.1 longer than draftboard at the same 35.0
-                           # → a hair tighter; drop a touch only if it binds.
-                           # Safe: the combined standoff is threaded BOTH ends,
-                           # so the screen clamp is a self-contained FRONT joint
-                           # (front screw → plate → washers → PCB → standoff
-                           # front face); excess wall pushes the BACK PLATE a
-                           # hair proud (back screw bridges it), screens stay
-                           # clamped. Keep overshoot ≲2. If still loose, → 35.
+INTERNAL_DEPTH = 30.0      # SLIMMED 2026-07-25: screen standoff stack cut 5mm
+                           # (swapped a 10mm for a 5mm), so by lockstep the snug
+                           # wall depth drops 5: 35.0 → 30.0. User physically
+                           # confirmed the electronics fit at this combo. Lower
+                           # profile = less peel leverage on the wall magnets.
+                           # The fit is a FRICTION fit (couple tenths); friction
+                           # clamp is a self-contained FRONT joint so screens
+                           # stay clamped regardless. NB: at this depth the USB
+                           # port sits ~5.75 from the front → too little bridge
+                           # for a closed hole, so the USB is a NOTCH again.
 TAB_W = 12.0
 TAB_SLOT_CLEAR = 0.3       # per slot, on top of kerf; locate-only fit
 # Corner-finger kerf compensation (2026-07-16): the finger (male) and cutout
@@ -170,15 +167,17 @@ FINGER_KERF = 0.18
 # the head no longer needs the front-edge notch it did at 31 mm depth.
 # Sized to the MEASURED magnetic cable head: 13 wide (along the wall length)
 # x 8.25 tall (front-to-back into the case).
-USB_HOLE_W = 14.5          # head 13 + 0.75/side
-USB_HOLE_H = 9.0           # head 8.25 + 0.375/side; centred at the port plane
-                           # (INTERNAL_DEPTH - USB_FROM_BACK); run_checks keeps
-                           # a ≥2 mm bridge to the front edge (else use a notch)
-USB_FROM_BACK = 25.8       # CORRECTED 2026-07-15 — the closed-hole test cut
-                           # showed the port sitting ~1 mm toward the back of
-                           # the hole, i.e. 1 mm closer to the back plate than
-                           # the 26.8 measurement (board plane was off). LED +
-                           # power share this plane, so both moved with it.
+# NOTCH again (2026-07-25) — the slimmed 30mm cavity puts the port only
+# ~5.75 from the front, too little bridge for a closed hole. Open to the
+# front edge; the front mask covers the notch mouth.
+USB_NOTCH_W = 14.5         # head 13 + 0.75/side (along the wall length)
+USB_NOTCH_DEPTH = 11.0     # from the front edge; must reach the port plane
+                           # (INTERNAL_DEPTH - USB_FROM_BACK = 5.75) + 8.25-tall
+                           # head half (4.125) = ~9.9, +1.1 clearance behind
+USB_FROM_BACK = 24.25      # SLIMMED 2026-07-25 — new board plane: base → USB-C
+                           # centre measured 24.25 (23 to the bottom + half of
+                           # the 2.5 port), ~1.5 lower than the old 25.8. LED +
+                           # power share this plane, so all three moved with it.
 USB_OFFSET_X = -20.5       # the +1.0 move (−21.25→−20.25) slightly over-
                            # centred toward the Pi; backed off 0.25. Direction
                            # confirmed correct (over-, not wrong-way).
@@ -202,7 +201,7 @@ LED_OFFSET_X = 13.5        # shifted 2 toward the LEDs / away from the power
                            # button (was 15.5; button still showed). Verify all
                            # 4 LEDs stay covered — the button sits close to the
                            # rightmost LED, so a sliver clip may be the tradeoff
-LED_FROM_BACK = 25.8       # same board plane as the USB-C (corrected -1)
+LED_FROM_BACK = 24.25      # same board plane as the USB-C (slimmed 2026-07-25)
 # No reset pinhole: reset (and the onboard power/custom buttons) stay
 # internal — the front arcade button clones power via pad 10.
 # Power/charging light: on the board's RIGHT short edge, facing the right
@@ -221,8 +220,8 @@ PWRLED_SLIP = 0.15             # pocket over rod, per dimension
 PWRLED_PIPE_HOLE = 3.0         # the pipe fallback's hole
 PWRLED_FROM_GPIO_EDGE = 9.25   # MEASURED 2026-07-13: GPIO-side (top) corner
                                # → LED near side 8.5, +~0.75 to centre
-PWRLED_FROM_BACK = 25.8        # board plane, same as the bottom-edge features
-                               # (corrected -1 with the USB; verify on recut)
+PWRLED_FROM_BACK = 24.25        # board plane, same as the bottom-edge features
+                               # (slimmed 2026-07-25 with the USB)
 
 # ----------------------------------------------------------------- magnets
 # DECIDED 2026-07-13 (as built + magnet-test PASSED): the pocket layer glues
