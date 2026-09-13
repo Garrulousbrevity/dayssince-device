@@ -11,6 +11,8 @@ logger = logging.getLogger(__name__)
 DEFAULTS = {
     "last_drawn_value": None,   # daysSince value currently on the panel
     "last_update_date": None,   # "YYYY-MM-DD" of the last git pull
+    "next_wake": None,          # ISO datetime of the RTC alarm we last armed
+    "last_wake_reason": None,   # alarm | manual | restart (see launcher.wake_reason)
     "battery_log": [],          # recent [iso_timestamp, pct] samples for drain analysis
 }
 

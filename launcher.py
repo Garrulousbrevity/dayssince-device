@@ -8,6 +8,12 @@ shut down.
 On external power (dev/watch mode): stay up, poll every minute, pull new code
 every ~5 minutes and re-exec on change. Falls back to field mode the moment
 power is unplugged.
+
+Either way, a *manual* start forces a panel redraw even if nothing changed:
+a fresh boot that the RTC alarm didn't cause (single tap on battery, USB
+power-on) or a service restart on a long-running system (the PiSugar
+double-tap gesture while plugged in). Alarm wakes and our own re-execs keep
+the change-only rule.
 """
 
 import logging
@@ -24,9 +30,58 @@ from dayssince import config, display, fetch, pisugar, render, schedule, state
 
 REPO_DIR = os.path.dirname(os.path.realpath(__file__))
 HOLD_FILE = "/boot/firmware/dayssince-hold"
+REEXEC_ENV = "DAYSSINCE_REEXEC"
+# A launcher start this long after boot can't be the boot itself. The unit has
+# Restart=no, so it means someone restarted the service — in practice the
+# PiSugar double-tap (`systemctl restart dayssince`).
+BOOT_WINDOW_SECONDS = 300
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s %(message)s")
 logger = logging.getLogger("launcher")
+
+
+def reexec() -> None:
+    """Restart the launcher in place (new code, or a field->watch flip).
+    Tagged so the next main() knows this is neither a boot nor a button gesture."""
+    os.execve(sys.executable, [sys.executable, os.path.realpath(__file__)],
+              {**os.environ, REEXEC_ENV: "1"})
+
+
+def uptime_seconds() -> float:
+    with open("/proc/uptime") as f:
+        return float(f.read().split()[0])
+
+
+def wake_reason(st: dict, now: datetime) -> str:
+    """Why is the launcher running?
+
+    reexec  — we re-exec'd ourselves (new code pulled, or field->watch flip)
+    restart — service restarted on a long-running system (double-tap gesture)
+    alarm   — fresh boot caused by the RTC alarm we armed
+    manual  — fresh boot caused by anything else (single tap, USB power-on)
+    """
+    if os.environ.get(REEXEC_ENV):
+        return "reexec"
+    try:
+        if uptime_seconds() > BOOT_WINDOW_SECONDS:
+            return "restart"
+    except OSError as err:
+        logger.warning("could not read uptime (%s), assuming fresh boot", err)
+    # Fresh boot. Two independent signals can attribute it to the alarm: the
+    # PiSugar's alarm flag (cleared here so it can't go stale and mask a later
+    # tap), and the clock landing just after the wake we armed. Either counts —
+    # pisugar-server may clear the flag before we read it, so a false flag
+    # alone doesn't prove a manual wake.
+    fired = False
+    try:
+        fired = pisugar.alarm_fired()
+        if fired:
+            pisugar.clear_alarm_flag()
+    except Exception as err:
+        logger.warning("alarm flag check failed: %s", err)
+    if fired or schedule.is_alarm_wake(now, st.get("next_wake")):
+        return "alarm"
+    return "manual"
 
 
 def shutdown():
@@ -72,8 +127,9 @@ def git_pull() -> bool:
     return changed
 
 
-def update_panel(st: dict, battery: float | None) -> None:
-    """Fetch and flash if the value changed. Failures are logged, never raised."""
+def update_panel(st: dict, battery: float | None, force: str | None = None) -> None:
+    """Fetch and flash if the value changed (or `force` names a reason to flash
+    regardless). Failures are logged, never raised."""
     try:
         data = fetch.fetch_days_since()
     except fetch.FetchError as err:
@@ -96,15 +152,15 @@ def update_panel(st: dict, battery: float | None) -> None:
     # battery % even when nothing changed, and doubles as anti-ghosting
     # maintenance for the panel.
     daily_refresh = st.get("last_flash_date") != today
-    if not daily_refresh and days == st.get("last_drawn_value") \
+    if not force and not daily_refresh and days == st.get("last_drawn_value") \
             and since_key == st.get("last_drawn_since") \
             and reporter_key == st.get("last_drawn_reporter") \
             and st.get("last_render_version") == render.RENDER_VERSION:
         logger.info("daysSince=%d unchanged, skipping panel flash", days)
         return
+    why = ([", daily refresh"] if daily_refresh else []) + ([f", forced: {force}"] if force else [])
     logger.info("daysSince %s -> %d since %s (render v%d%s), flashing panel",
-                st.get("last_drawn_value"), days, since_key, render.RENDER_VERSION,
-                ", daily refresh" if daily_refresh else "")
+                st.get("last_drawn_value"), days, since_key, render.RENDER_VERSION, "".join(why))
     try:
         display.flash_value(days, last_event, battery, reporter)
     except Exception as err:
@@ -134,7 +190,7 @@ def maybe_daily_pull(st: dict) -> None:
         state.save(st)
 
 
-def field_mode(st: dict) -> None:
+def field_mode(st: dict, force: str | None = None) -> None:
     # Arm the wake FIRST — everything after this is best-effort. If arming
     # itself fails, still proceed to shutdown: the alarm has a daily repeat,
     # so the previously armed time will wake us; staying up just kills the
@@ -143,6 +199,8 @@ def field_mode(st: dict) -> None:
     try:
         wake = schedule.next_wake(datetime.now().astimezone())
         pisugar.set_next_alarm(wake)
+        st["next_wake"] = wake.isoformat()  # lets the next boot tell alarm from tap
+        state.save(st)
     except Exception as err:
         logger.error("failed to arm RTC alarm (%s) — proceeding to shutdown; "
                      "the previously armed daily alarm should still wake us", err)
@@ -152,7 +210,7 @@ def field_mode(st: dict) -> None:
                           pisugar.battery_volts())
         state.save(st)
     maybe_daily_pull(st)
-    update_panel(st, battery)
+    update_panel(st, battery, force)
     if clock_synced():
         try:
             pisugar.sync_rtc_from_pi()
@@ -168,7 +226,7 @@ def field_mode(st: dict) -> None:
         plugged = False
     if plugged:
         logger.info("external power arrived mid-cycle — re-exec into watch mode instead of shutting down")
-        os.execv(sys.executable, [sys.executable, os.path.realpath(__file__)])
+        reexec()
     shutdown()
 
 
@@ -202,7 +260,7 @@ def start_webhook_listener() -> None:
     logger.info("webhook listener on :%d", config.WEBHOOK_PORT)
 
 
-def watch_mode(st: dict) -> None:
+def watch_mode(st: dict, force: str | None = None) -> None:
     logger.info("external power detected — watch mode (interval %ds)", config.WATCH_INTERVAL_SECONDS)
     start_webhook_listener()
     last_pull = 0.0
@@ -214,8 +272,9 @@ def watch_mode(st: dict) -> None:
             last_pull = now
             if git_pull():
                 logger.info("re-exec with new code")
-                os.execv(sys.executable, [sys.executable, os.path.realpath(__file__)])
-        update_panel(st, read_battery())
+                reexec()
+        update_panel(st, read_battery(), force)
+        force = None  # only the first pass after a manual start is forced
         if now - last_rtc_sync >= 3600 and clock_synced():
             try:
                 pisugar.sync_rtc_from_pi()
@@ -247,6 +306,17 @@ def main():
         logger.warning("could not set Pi clock from PiSugar RTC: %s", err)
 
     st = state.load()
+    now = datetime.now().astimezone()
+    reason = wake_reason(st, now)
+    # Single tap on battery / double tap while plugged = "redraw now", even if
+    # nothing changed. Alarm wakes and re-execs keep the change-only rule.
+    force = reason if reason in ("manual", "restart") else None
+    if reason != "reexec":
+        st["last_wake_reason"] = reason
+        st["last_wake_at"] = now.isoformat()
+        state.save(st)
+    logger.info("wake reason: %s%s", reason, " — forcing a panel redraw" if force else "")
+
     try:
         plugged = pisugar.power_plugged()
     except Exception as err:
@@ -255,9 +325,9 @@ def main():
         plugged = False
 
     if plugged:
-        watch_mode(st)
+        watch_mode(st, force)
     else:
-        field_mode(st)
+        field_mode(st, force)
 
 
 if __name__ == "__main__":

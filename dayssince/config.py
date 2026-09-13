@@ -28,6 +28,12 @@ WEBHOOK_PORT = 8321  # any POST here (LAN only) triggers an immediate pull
 # about to pass isn't scheduled while we're still shutting down.
 ALARM_MARGIN_SECONDS = 90
 
+# A fresh boot landing within this many seconds AFTER the wake we armed is
+# attributed to the RTC alarm (boot + network-online takes ~30-90 s). Anything
+# else — earlier, later, or with no armed wake on record — is a manual power-on
+# (button tap / USB) and gets a forced panel redraw.
+ALARM_MATCH_SECONDS = 240
+
 STATE_PATH = "/var/lib/dayssince/state.json"
 
 PISUGAR_HOST = "127.0.0.1"

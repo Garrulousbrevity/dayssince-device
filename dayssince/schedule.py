@@ -28,3 +28,25 @@ def next_wake(now: datetime) -> datetime:
     if slot > end:
         return start + timedelta(days=1)
     return slot
+
+
+def is_alarm_wake(now: datetime, armed_iso: str | None,
+                  tolerance_seconds: int = config.ALARM_MATCH_SECONDS,
+                  early_seconds: int = 60) -> bool:
+    """Did the RTC alarm armed at `armed_iso` plausibly cause a boot at `now`?
+
+    Compares time-of-day only: the PiSugar alarm stores time-of-day + a daily
+    repeat, so if re-arming failed the *old* time still fires on later days and
+    must still count as an alarm wake. The window is asymmetric — an alarm can't
+    boot us before it fires (a small early allowance covers clock slop), but
+    boot + network can take a couple of minutes after.
+    """
+    if not armed_iso:
+        return False
+    try:
+        armed = datetime.fromisoformat(armed_iso)
+        delta = (now - armed).total_seconds()
+    except (ValueError, TypeError):
+        return False
+    delta = (delta + 43200) % 86400 - 43200  # wrap into (-12h, +12h]
+    return -early_seconds <= delta <= tolerance_seconds

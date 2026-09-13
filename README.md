@@ -85,6 +85,21 @@ re-runs the launcher ("update now"); if external power is present at boot the
 launcher stays up in watch mode, so "plug it in, tap the button" is the
 enter-dev-mode gesture.
 
+**Manual starts always redraw.** The change-only rule applies to RTC-alarm
+wakes and the launcher's own re-execs; a *manual* start flashes the panel even
+if nothing changed, so the button doubles as "show me it's alive and current":
+
+- single tap on battery — a fresh boot the alarm didn't cause. Detected via
+  the PiSugar alarm flag (`rtc_alarm_flag`, cleared after reading) OR the
+  clock landing within `ALARM_MATCH_SECONDS` after the wake recorded in
+  `state.json` (`next_wake`); either signal means "alarm", neither means "tap".
+- double tap while plugged in — a service restart on a system that's been up
+  longer than the boot window (the unit has `Restart=no`, so nothing else
+  restarts it). Only the first poll after the restart is forced.
+
+`state.json` records `last_wake_reason` (`alarm` / `manual` / `restart`) for
+forensics, since the Pi's journal is volatile.
+
 **Emergency hold**: `touch /boot/firmware/dayssince-hold` (from SSH, or by
 mounting the SD card) makes the launcher exit without flashing or shutting
 down.

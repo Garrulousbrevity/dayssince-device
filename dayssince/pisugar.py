@@ -6,6 +6,8 @@ Verified against pisugar-server 2.3.2 / PiSugar 3 firmware v1.3.4:
   The RTC stores only time-of-day + weekday repeat (the date reads back as
   1999-12-31); with mask 127 the alarm fires at the next occurrence of that
   time, which is always correct for wakes scheduled within 24h.
+- `get rtc_alarm_flag` -> "rtc_alarm_flag: true|false" (set when the alarm
+  fired); `rtc_clear_flag` -> "rtc_clear_flag: done".
 """
 
 import logging
@@ -81,3 +83,14 @@ def set_next_alarm(when: datetime) -> None:
     if "done" not in reply:
         raise PiSugarError(f"rtc_alarm_set failed: {reply!r}")
     logger.info("next RTC wake armed for %s", iso)
+
+
+def alarm_fired() -> bool:
+    """True if the RTC alarm flag is set (the alarm woke us, or fired since)."""
+    return _get("rtc_alarm_flag") == "true"
+
+
+def clear_alarm_flag() -> None:
+    reply = _command("rtc_clear_flag")
+    if "done" not in reply:
+        raise PiSugarError(f"rtc_clear_flag failed: {reply!r}")
