@@ -96,6 +96,13 @@ if nothing changed, so the button doubles as "show me it's alive and current":
 - double tap while plugged in — a service restart on a system that's been up
   longer than the boot window (the unit has `Restart=no`, so nothing else
   restarts it). Only the first poll after the restart is forced.
+  **Hardware caveat (verified 2026-09-15):** on the PiSugar 3 the single/double/
+  long tap functions belong to the *custom* button (onboard button 4 / pad 9),
+  NOT the power button (button 5 / pad 10). The MCU never reports power-button
+  presses in the tap register (I2C 0x08 stays 0x00), so an external button on
+  pad 10 alone can power the Pi on but can never double-tap. To get both from
+  one button, wire its switched side to pad 9 as well as pad 10 (both are
+  "connect to BAT+ (pad 2)" inputs).
 
 `state.json` records `last_wake_reason` (`alarm` / `manual` / `restart`) for
 forensics, since the Pi's journal is volatile.
